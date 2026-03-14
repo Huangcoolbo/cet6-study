@@ -1,0 +1,97 @@
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$sourceRoot = 'D:\Bo'
+$targetRoot = 'D:\Ying'
+$repoRoot = $targetRoot
+
+$syncPairs = @(
+    @{ Source = (Join-Path $sourceRoot 'cet6-data'); Target = (Join-Path $targetRoot 'data') },
+    @{ Source = (Join-Path $sourceRoot 'study-plan-week1.md'); Target = (Join-Path $targetRoot 'plans\study-plan-week1.md') }
+)
+
+$excludedTargetFiles = @(
+    'data\index\dingtalk-state.json'
+)
+
+function Invoke-RobocopySync {
+    param(
+        [Parameter(Mandatory = $true)][string]$Source,
+        [Parameter(Mandatory = $true)][string]$Target
+    )
+
+    if (-not (Test-Path $Source)) {
+        return
+    }
+
+    New-Item -ItemType Directory -Force -Path $Target | Out-Null
+    & robocopy $Source $Target /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NP /XD '.git' '.openclaw' 'memory' 'skills' 'tools' /XF 'dingtalk-state.json' | Out-Null
+    $code = $LASTEXITCODE
+    if ($code -ge 8) {
+        throw "robocopy failed for $Source -> $Target with exit code $code"
+    }
+}
+
+function Copy-FileIfPresent {
+    param(
+        [Parameter(Mandatory = $true)][string]$Source,
+        [Parameter(Mandatory = $true)][string]$Target
+    )
+
+    if (-not (Test-Path $Source)) {
+        return
+    }
+
+    $parent = Split-Path -Parent $Target
+    if ($parent) {
+        New-Item -ItemType Directory -Force -Path $parent | Out-Null
+    }
+
+    Copy-Item -Path $Source -Destination $Target -Force
+}
+
+try {
+    Set-Location $repoRoot
+
+    foreach ($pair in $syncPairs) {
+        $source = $pair.Source
+        $target = $pair.Target
+
+        if ((Get-Item $source).PSIsContainer) {
+            Invoke-RobocopySync -Source $source -Target $target
+        } else {
+            Copy-FileIfPresent -Source $source -Target $target
+        }
+    }
+
+    foreach ($relativePath in $excludedTargetFiles) {
+        $fullPath = Join-Path $targetRoot $relativePath
+        if (Test-Path $fullPath) {
+            git restore --staged --worktree --source=HEAD -- "$relativePath" 2>$null
+            if ($LASTEXITCODE -ne 0) {
+                Remove-Item -Force $fullPath -ErrorAction SilentlyContinue
+            }
+        }
+    }
+
+    $status = git status --porcelain --untracked-files=normal
+    if (-not $status) {
+        Write-Output 'No CET-6 sync changes to commit.'
+        exit 0
+    }
+
+    git add data plans README.md .gitignore sync-cet6-study.ps1
+    $postAddStatus = git status --porcelain --untracked-files=normal
+    if (-not $postAddStatus) {
+        Write-Output 'No tracked CET-6 changes after filtering.'
+        exit 0
+    }
+
+    $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
+    git commit -m "sync: CET-6 materials from D:\Bo ($timestamp)"
+    git push origin main
+    Write-Output 'CET-6 materials synced and pushed successfully.'
+} catch {
+    Write-Error $_
+    exit 1
+}

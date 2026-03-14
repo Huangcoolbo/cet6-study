@@ -4,3 +4,11 @@ Thumbs.db
 .temp/
 .tmp/
 node_modules/
+.openclaw/
+AGENTS.md
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+TOOLS.md
+USER.md
+data/index/dingtalk-state.json
