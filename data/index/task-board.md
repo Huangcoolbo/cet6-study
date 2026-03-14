@@ -11,8 +11,11 @@
 - 已建立 `sources/complete-paper-candidates.md`，把完整试卷/答案来源与听力来源拆开管理
 - 后续新增完整卷候选来源时，先登记到候选池，再决定是否写入正式索引
 - 已补上 `daily-logs/2026-03.md`、`reviews/README.md`、`reviews/2026-W11-weekly-review.md`，让真实训练记录有固定落点
+- 本轮根据现有进展补充了一个更具体的内部推进项：先整理“首批可直接训练的听力材料入口清单”，避免在完整卷来源尚未锁定时停滞
+- 已新增 `sources/listening-entry-shortlist.md`，把 2024-12 → 2023 的听力入口按训练优先级固定下来
 
 ## Next
+- 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，形成首批可直接调用的听力训练样本
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
 - 用周数据跑一次阶段性评估
 - 基于真实打卡数据，决定是否启用 cron 固定提醒
