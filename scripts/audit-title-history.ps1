@@ -1,7 +1,9 @@
 param(
     [int]$Count = 30,
     [string]$RevisionRange,
-    [switch]$FailuresOnly
+    [switch]$FailuresOnly,
+    [switch]$SummaryOnly,
+    [switch]$AsJson
 )
 
 Set-StrictMode -Version Latest
@@ -86,23 +88,8 @@ else {
     $results
 }
 
-$displayResults | ForEach-Object {
-    if ($_.Status -eq 'PASS') {
-        Write-Host ("[{0}] {1} {2}" -f $_.Status, $_.Sha.Substring(0, 7), $_.Title) -ForegroundColor Green
-    }
-    else {
-        Write-Host ("[{0}] {1} {2}" -f $_.Status, $_.Sha.Substring(0, 7), $_.Title) -ForegroundColor Yellow
-        Write-Host ("       -> {0}" -f $_.Reason) -ForegroundColor DarkYellow
-    }
-}
-
 $failures = @($results | Where-Object Status -eq 'FAIL')
-Write-Host ''
-Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail." -f $results.Count, ($results.Count - $failures.Count), $failures.Count)
-
-if ($failures.Count -gt 0) {
-    Write-Host ''
-    Write-Host 'Failure reason summary:' -ForegroundColor Yellow
+$failureSummary = @(
     $failures |
         Group-Object ReasonCategory |
         Sort-Object -Property @(
@@ -110,8 +97,52 @@ if ($failures.Count -gt 0) {
             @{ Expression = 'Name'; Descending = $false }
         ) |
         ForEach-Object {
-            Write-Host ("- {0} x {1}" -f $_.Count, $_.Name) -ForegroundColor DarkYellow
+            [pscustomobject]@{
+                Reason = $_.Name
+                Count  = $_.Count
+            }
         }
+)
+
+$summary = [pscustomobject]@{
+    AuditedCount = $results.Count
+    PassCount    = $results.Count - $failures.Count
+    FailCount    = $failures.Count
+    FailuresOnly = [bool]$FailuresOnly
+    RevisionRange = if ($RevisionRange) { $RevisionRange } else { '' }
+}
+
+if ($AsJson) {
+    [pscustomobject]@{
+        Summary        = $summary
+        FailureSummary = $failureSummary
+        Results        = @($displayResults)
+    } | ConvertTo-Json -Depth 6
+    exit 0
+}
+
+if (-not $SummaryOnly) {
+    $displayResults | ForEach-Object {
+        if ($_.Status -eq 'PASS') {
+            Write-Host ("[{0}] {1} {2}" -f $_.Status, $_.Sha.Substring(0, 7), $_.Title) -ForegroundColor Green
+        }
+        else {
+            Write-Host ("[{0}] {1} {2}" -f $_.Status, $_.Sha.Substring(0, 7), $_.Title) -ForegroundColor Yellow
+            Write-Host ("       -> {0}" -f $_.Reason) -ForegroundColor DarkYellow
+        }
+    }
+
+    Write-Host ''
+}
+
+Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail." -f $summary.AuditedCount, $summary.PassCount, $summary.FailCount)
+
+if ($failureSummary.Count -gt 0) {
+    Write-Host ''
+    Write-Host 'Failure reason summary:' -ForegroundColor Yellow
+    $failureSummary | ForEach-Object {
+        Write-Host ("- {0} x {1}" -f $_.Count, $_.Reason) -ForegroundColor DarkYellow
+    }
 
     Write-Host ''
     Write-Host 'Use these grouped failures to decide whether the validator is catching real legacy problems or misclassifying acceptable titles.'
