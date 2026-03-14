@@ -10,10 +10,6 @@ $syncPairs = @(
     @{ Source = (Join-Path $sourceRoot 'study-plan-week1.md'); Target = (Join-Path $targetRoot 'plans\study-plan-week1.md') }
 )
 
-$excludedTargetFiles = @(
-    'data\index\dingtalk-state.json'
-)
-
 function Invoke-RobocopySync {
     param(
         [Parameter(Mandatory = $true)][string]$Source,
@@ -25,7 +21,7 @@ function Invoke-RobocopySync {
     }
 
     New-Item -ItemType Directory -Force -Path $Target | Out-Null
-    & robocopy $Source $Target /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NP /XD '.git' '.openclaw' 'memory' 'skills' 'tools' /XF 'dingtalk-state.json' | Out-Null
+    & robocopy $Source $Target /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NP /XD '.git' '.openclaw' 'memory' 'skills' 'tools' | Out-Null
     $code = $LASTEXITCODE
     if ($code -ge 8) {
         throw "robocopy failed for $Source -> $Target with exit code $code"
@@ -64,23 +60,13 @@ try {
         }
     }
 
-    foreach ($relativePath in $excludedTargetFiles) {
-        $fullPath = Join-Path $targetRoot $relativePath
-        if (Test-Path $fullPath) {
-            git restore --staged --worktree --source=HEAD -- "$relativePath" 2>$null
-            if ($LASTEXITCODE -ne 0) {
-                Remove-Item -Force $fullPath -ErrorAction SilentlyContinue
-            }
-        }
-    }
-
     $status = git status --porcelain --untracked-files=normal
     if (-not $status) {
         Write-Output 'No CET-6 sync changes to commit.'
         exit 0
     }
 
-    git add data plans README.md .gitignore sync-cet6-study.ps1
+    git add data plans README.md .gitignore sync-cet6-study.ps1 SYNC_POLICY.md PR_MERGE_POLICY.md
     $postAddStatus = git status --porcelain --untracked-files=normal
     if (-not $postAddStatus) {
         Write-Output 'No tracked CET-6 changes after filtering.'

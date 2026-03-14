@@ -1,19 +1,157 @@
 # CET-6 Study Project
 
-This repository contains structured materials for CET-6 preparation, including study plans, practice data, reviews, writing/translation materials, and progress trackers.
+这是一个围绕 CET-6 备考建立的项目仓库。
 
-## Structure
+它不只是资料堆放区，而是一个 **“学习资料库 + 执行状态库 + 自动同步仓库”**：
+- 对人来说，它应该足够清楚，能一眼看懂项目目标、目录结构和协作方式
+- 对 OpenClaw 来说，它也是一个可读取、可执行、可同步的工作区
 
-- `plans/` — study plans
-- `data/answers/` — answer materials
-- `data/index/` — trackers and task boards
-- `data/papers/` — paper materials
-- `data/reviews/` — review notes
-- `data/sources/` — source evaluation and references
-- `data/transcripts/` — transcript materials
-- `data/translation/` — translation practice
-- `data/writing/` — writing practice
+## 1. 这个项目是做什么的？
 
-## Sync policy
+项目的目标是把 CET-6 备考过程拆成可持续维护的内容：
+- 学习计划
+- 输入材料
+- 真题与答案
+- 听力原文
+- 写作与翻译训练
+- 复盘记录
+- 提醒与执行状态
 
-This repo is intended to store only CET-6 study materials suitable for GitHub sync. It excludes OpenClaw runtime files, memory files, and personal assistant configuration.
+换句话说，这不是单纯的“笔记仓库”，而是一个让 **人和多个 OpenClaw 协作推进 CET-6 学习** 的项目。
+
+## 2. 谁在做什么？
+
+当前至少有两类执行角色：
+
+- **当前这个 OpenClaw**
+  - 负责同步 `D:\Bo` 中与项目有关的内容到 `D:\Ying`
+  - 负责仓库整理、CI/CD、文档维护、PR 审查建议
+  - 负责判断哪些内容适合进入 GitHub 仓库
+
+- **另一个 OpenClaw**
+  - 负责项目中的某些提醒或执行任务
+  - 当前已知包含 **钉钉提醒链路** 的执行
+
+因此，仓库中的一部分文件既是“资料”，也是“跨 OpenClaw 协作状态”。
+
+## 3. 仓库结构
+
+### 核心目录
+
+- `plans/`  
+  学习计划，例如按周推进的学习安排。
+
+- `data/`  
+  CET-6 资料与状态数据的主目录。
+
+### `data/` 内部说明
+
+- `data/answers/`  
+  参考答案与解析。
+
+- `data/index/`  
+  索引、进度跟踪、任务板、状态文件。
+  这里不只是目录索引，也包含项目运行中需要的状态数据。
+
+- `data/input/`  
+  适合被后续训练流程消费的结构化输入，例如词汇、句子、表达、写作句料、翻译句料。
+
+- `data/papers/`  
+  真题正文、试卷材料。
+
+- `data/reviews/`  
+  周复盘、阶段复盘、资料质量复盘。
+
+- `data/sources/`  
+  资料来源清单、可信度评估、来源说明。
+
+- `data/transcripts/`  
+  听力原文、听力材料整理。
+
+- `data/translation/`  
+  翻译练习材料、参考译文、问题归纳。
+
+- `data/writing/`  
+  写作题目、范文、模板、批改记录。
+
+## 4. 钉钉文件为什么在项目里？
+
+`data/index/dingtalk-state.json` 是项目的一部分。
+
+它不是普通学习笔记，而是 **提醒链路的状态文件**。当前理解是：
+- 它服务于钉钉提醒相关流程
+- 执行者是另一个 OpenClaw
+- 当前仓库保留它，是为了让项目状态可以被同步、查看和协作
+
+所以，这类文件要按 **“项目运行状态”** 理解，而不是按“无意义缓存”理解。
+
+## 5. 当前同步关系
+
+当前同步主线为：
+
+- `D:\Bo\cet6-data\` -> `D:\Ying\data\`
+- `D:\Bo\study-plan-week1.md` -> `D:\Ying\plans\study-plan-week1.md`
+
+含义是：
+- `D:\Bo` 是上游内容来源之一
+- `D:\Ying` 是当前项目仓库所在目录
+- 仓库会定时同步、提交并推送到 GitHub
+
+## 6. 什么会被同步，什么不会？
+
+### 会同步的内容
+
+- CET-6 学习资料
+- 学习计划
+- 索引、任务板、进度信息
+- 与项目执行直接相关的状态文件（例如钉钉提醒状态）
+- 经确认对项目有价值的自动化脚本和项目文档
+
+### 不会同步的内容
+
+下面这些通常不应该进仓库：
+
+- `.openclaw/`
+- `AGENTS.md`
+- `SOUL.md`
+- `USER.md`
+- `TOOLS.md`
+- `IDENTITY.md`
+- `HEARTBEAT.md`
+- `memory/`
+- 其他私人、运行时、环境专属但与项目无直接关系的文件
+
+## 7. 这个仓库是给人看，还是给 OpenClaw 看？
+
+答案是：**两者都要看得懂。**
+
+这也是这个项目接下来必须坚持的标准：
+
+- 对人：文档要讲清楚“这是什么、为什么存在、怎么协作”
+- 对 OpenClaw：目录、命名和状态文件要足够稳定，方便自动化执行
+
+也就是说，这个仓库不能只靠“agent 自己脑补”才能运行；它必须在文档层面足够清楚，换个人来看也能快速理解。
+
+## 8. 协作原则
+
+这个项目默认遵循以下原则：
+
+1. **以 CET-6 学习价值为核心**  
+   所有内容都应服务于备考效率、训练质量或复盘质量。
+
+2. **文档清晰优先**  
+   新增目录、状态文件或自动化脚本时，要尽量写清楚用途。
+
+3. **人类可读，不依赖心照不宣**  
+   不把关键信息只藏在 agent 的上下文里。
+
+4. **自动化有边界**  
+   自动同步、自动 push、PR 审查都应该有明确规则。
+
+## 9. 相关文档
+
+- `SYNC_POLICY.md` — 同步边界与来源说明
+- `PR_MERGE_POLICY.md` — PR 审查与合并标准
+- `data/README.md` — CET-6 资料库说明
+
+如果你是第一次进入这个仓库，建议先看本 README，再看 `SYNC_POLICY.md`。
