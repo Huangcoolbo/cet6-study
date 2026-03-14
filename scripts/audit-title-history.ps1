@@ -28,9 +28,36 @@ function Get-ReasonCategory {
     }
 
     $category = $Reason.Trim()
+
+    if ($category -match '^commit title should use ''<type>') {
+        return "commit title should use '<type>: <specific summary>' with one of: docs, sync, data, plan, fix, chore, review."
+    }
+
+    if ($category -match '^commit title should not include timestamps or date-time strings') {
+        return 'commit title should not include timestamps or date-time strings'
+    }
+
+    if ($category -match '^commit title summary still starts with a vague word') {
+        return 'commit title summary still starts with a vague word'
+    }
+
     $category = $category -replace " Got: '.+" , ''
     $category = $category -replace ": '.+" , ''
     return $category.Trim()
+}
+
+function Test-IsKnownLegacyReason {
+    param(
+        [string]$Reason
+    )
+
+    $legacyPatternReasons = @(
+        'commit title should not include timestamps or date-time strings',
+        "commit title should use '<type>: <specific summary>' with one of: docs, sync, data, plan, fix, chore, review.",
+        'commit title summary still starts with a vague word'
+    )
+
+    return $legacyPatternReasons -contains $Reason
 }
 
 function Get-SuggestedAction {
@@ -43,22 +70,7 @@ function Get-SuggestedAction {
         return 'No follow-up needed; current audit slice is clean.'
     }
 
-    $reasons = @($FailureSummary | ForEach-Object { $_.Reason })
-    $legacyPatternReasons = @(
-        'commit title includes a date or timestamp, which should stay in git metadata instead.',
-        "commit title should use '<type>: <specific summary>' with one of: docs, sync, data, plan, fix, chore, review.",
-        'commit title summary still starts with a vague word'
-    )
-
-    $hasOnlyKnownLegacyPatterns = $true
-    foreach ($reason in $reasons) {
-        if ($legacyPatternReasons -notcontains $reason) {
-            $hasOnlyKnownLegacyPatterns = $false
-            break
-        }
-    }
-
-    if ($hasOnlyKnownLegacyPatterns) {
+    if ($Summary.UnknownFailureCount -eq 0) {
         return 'Failures match the currently known legacy-bad-title buckets; review the sample titles to confirm no new false positives appeared.'
     }
 
@@ -143,20 +155,34 @@ $failureSummary = @(
             )
 
             [pscustomobject]@{
-                Reason  = $_.Name
-                Count   = $_.Count
-                Samples = $samples
+                Reason         = $_.Name
+                Count          = $_.Count
+                IsKnownLegacy  = Test-IsKnownLegacyReason -Reason $_.Name
+                Samples        = $samples
             }
         }
 )
 
+$knownLegacyFailureCount = @($failureSummary | Where-Object IsKnownLegacy | ForEach-Object Count | Measure-Object -Sum).Sum
+if ($null -eq $knownLegacyFailureCount) {
+    $knownLegacyFailureCount = 0
+}
+
+$unknownFailureCount = $failures.Count - $knownLegacyFailureCount
+if ($unknownFailureCount -lt 0) {
+    $unknownFailureCount = 0
+}
+
 $summary = [pscustomobject]@{
-    AuditedCount  = $results.Count
-    PassCount     = $results.Count - $failures.Count
-    FailCount     = $failures.Count
-    FailuresOnly  = [bool]$FailuresOnly
-    RevisionRange = if ($RevisionRange) { $RevisionRange } else { '' }
-    Outcome       = if ($failures.Count -eq 0) { 'clean' } else { 'needs-review' }
+    AuditedCount             = $results.Count
+    PassCount                = $results.Count - $failures.Count
+    FailCount                = $failures.Count
+    KnownLegacyFailureCount  = $knownLegacyFailureCount
+    UnknownFailureCount      = $unknownFailureCount
+    LegacyOnlyFailures       = [bool]($failures.Count -gt 0 -and $unknownFailureCount -eq 0)
+    FailuresOnly             = [bool]$FailuresOnly
+    RevisionRange            = if ($RevisionRange) { $RevisionRange } else { '' }
+    Outcome                  = if ($failures.Count -eq 0) { 'clean' } elseif ($unknownFailureCount -eq 0) { 'legacy-only' } else { 'needs-review' }
 }
 
 $suggestedAction = Get-SuggestedAction -Summary $summary -FailureSummary $failureSummary
