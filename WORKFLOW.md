@@ -97,9 +97,10 @@
 - `resume-catchup.ps1` 内部再调用 `D:\Ying\sync-cet6-study.ps1`
 - 如果 `CET6StudyAutoPush` 仍暂时指向 `D:\Ying\auto-push.ps1`，可视为兼容回退状态，但应尽快收敛回主入口
 
-仓库已补充两个本机辅助脚本：
+仓库已补充几个本机辅助脚本：
 - `scripts/audit-sync-entrypoints.ps1`：重复检查这些本地入口是否仍指向 `D:\Ying` 下的现行脚本，并区分“首选主入口”与“兼容回退入口”
 - `scripts/set-autopush-task-entrypoint.ps1`：把 `CET6StudyAutoPush` 的计划任务动作收敛为直接调用 `D:\Ying\sync-cet6-study.ps1`
+- `scripts/audit-title-history.ps1`：批量回放最近一段 git 历史并按当前 `validate-title.ps1` 规则标记 PASS / FAIL，支持聚合失败原因摘要（必要时可用 `-FailuresOnly` 只看失败项），方便在“观察标题校验是否误报/漏报”时快速区分“历史遗留坏标题”与“当前规则可能错杀的正常标题”
 
 ---
 

@@ -21,6 +21,8 @@
 - 2026-03-14 晚间内部巡检：Todo、任务板、catalog、source-year-mapping、verified-listening-samples 之间当前未发现新的路径/状态冲突；因此不人为上调任何资料状态，继续把首个真实推进点锁定为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-14 21:22 cron 巡检：复查上述索引与入口文件后，确认本轮仍无可安全完成的“状态升级”动作；继续维持现状，避免把未核验入口包装成真实样本进展
 - 2026-03-14 21:27 cron 巡检：在无新增外部核验结果的前提下，不上调任何年份/样本状态；已在 `index/verified-listening-samples.md` 补上 `pending → verified → trained` 的统一回写规则，减少后续状态口径漂移
+- 2026-03-14 21:32 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/catalog.md`、`index/source-year-mapping.md`、`index/verified-listening-samples.md`、`sources/listening-entry-shortlist.md`、`transcripts/sample-intake-template.md` 后，未发现新的可安全完成项；本轮继续只做状态一致性确认，不补伪进展，真实推进点仍是 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-14 21:37 cron 巡检：再次按实际 `index/` 路径复查 `catalog.md`、`source-year-mapping.md`、`verified-listening-samples.md` 与 `Todo.md`、`sources/listening-entry-shortlist.md`、`transcripts/sample-intake-template.md`，确认本轮仍无可安全上调的样本或年份状态；继续维持“只记真实核验结果，不做状态虚增”的口径，下一真实推进点不变
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`
