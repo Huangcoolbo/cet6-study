@@ -33,6 +33,38 @@ function Get-ReasonCategory {
     return $category.Trim()
 }
 
+function Get-SuggestedAction {
+    param(
+        [object]$Summary,
+        [object[]]$FailureSummary
+    )
+
+    if ($Summary.FailCount -eq 0) {
+        return 'No follow-up needed; current audit slice is clean.'
+    }
+
+    $reasons = @($FailureSummary | ForEach-Object { $_.Reason })
+    $legacyPatternReasons = @(
+        'commit title includes a date or timestamp, which should stay in git metadata instead.',
+        "commit title should use '<type>: <specific summary>' with one of: docs, sync, data, plan, fix, chore, review.",
+        'commit title summary still starts with a vague word'
+    )
+
+    $hasOnlyKnownLegacyPatterns = $true
+    foreach ($reason in $reasons) {
+        if ($legacyPatternReasons -notcontains $reason) {
+            $hasOnlyKnownLegacyPatterns = $false
+            break
+        }
+    }
+
+    if ($hasOnlyKnownLegacyPatterns) {
+        return 'Failures match the currently known legacy-bad-title buckets; review the sample titles to confirm no new false positives appeared.'
+    }
+
+    return 'Failures include reasons outside the usual legacy buckets; inspect the samples and validator rules before treating this as expected.'
+}
+
 Set-Location $repoRoot
 
 $gitArgs = @('log', '--format=%H%x09%s')
@@ -127,10 +159,13 @@ $summary = [pscustomobject]@{
     Outcome       = if ($failures.Count -eq 0) { 'clean' } else { 'needs-review' }
 }
 
+$suggestedAction = Get-SuggestedAction -Summary $summary -FailureSummary $failureSummary
+
 $payload = [pscustomobject]@{
-    Summary        = $summary
-    FailureSummary = $failureSummary
-    Results        = @($displayResults)
+    Summary         = $summary
+    SuggestedAction = $suggestedAction
+    FailureSummary  = $failureSummary
+    Results         = @($displayResults)
 }
 
 if ($AsJson) {
@@ -154,6 +189,7 @@ if ($AsMarkdown) {
     if ($Compact) {
         $lines.Add('- Output mode: compact summary') | Out-Null
     }
+    $lines.Add(('- Suggested action: {0}' -f $suggestedAction)) | Out-Null
 
     if ($failureSummary.Count -gt 0) {
         $lines.Add('') | Out-Null
@@ -209,6 +245,7 @@ if (-not $SummaryOnly) {
 }
 
 Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail. Outcome: {3}." -f $summary.AuditedCount, $summary.PassCount, $summary.FailCount, $summary.Outcome)
+Write-Host ("Suggested action: {0}" -f $suggestedAction)
 
 if ($failureSummary.Count -gt 0) {
     Write-Host ''
