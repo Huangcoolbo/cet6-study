@@ -3,6 +3,7 @@ param(
     [string]$RevisionRange,
     [switch]$FailuresOnly,
     [switch]$SummaryOnly,
+    [switch]$Compact,
     [switch]$AsJson,
     [switch]$AsMarkdown
 )
@@ -137,6 +138,9 @@ if ($AsMarkdown) {
     if ($summary.FailuresOnly) {
         $lines.Add('- Output mode: failures only') | Out-Null
     }
+    if ($Compact) {
+        $lines.Add('- Output mode: compact summary') | Out-Null
+    }
 
     if ($failureSummary.Count -gt 0) {
         $lines.Add('') | Out-Null
@@ -147,7 +151,7 @@ if ($AsMarkdown) {
         }
     }
 
-    if ($displayResults.Count -gt 0) {
+    if (-not $Compact -and $displayResults.Count -gt 0) {
         $lines.Add('') | Out-Null
         $lines.Add('## Audited titles') | Out-Null
         $lines.Add('') | Out-Null
