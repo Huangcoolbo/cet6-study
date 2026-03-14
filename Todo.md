@@ -28,4 +28,5 @@
 - [x] 评估是否要把 `CET6StudyAutoPush` 计划任务的动作从 `auto-push.ps1` 兼容包装层进一步收敛为直接调用 `sync-cet6-study.ps1`，减少一层历史兼容入口并降低后续漂移风险。（结论：值得收敛；已补 `scripts/set-autopush-task-entrypoint.ps1` 作为可重复执行的迁移脚本，并更新 `scripts/audit-sync-entrypoints.ps1` / `WORKFLOW.md` 区分“首选主入口”与“兼容回退入口”）
 - [x] 选择合适窗口执行 `scripts/set-autopush-task-entrypoint.ps1`，把本机 `CET6StudyAutoPush` 计划任务从兼容包装层正式切换为直接调用 `sync-cet6-study.ps1`，然后再次审计确认落地结果。（已执行迁移脚本并复跑 `scripts/audit-sync-entrypoints.ps1`，当前 `CET6StudyAutoPush` / `CET6StudyResumeCatchup` 均通过审计）
 - [x] 清理计划任务审计过程中产生的本机 XML 快照边界，避免 `*.current.xml` / 导出任务定义被误当成仓库待提交内容。（已在 `.gitignore` 中忽略这类本机计划任务导出产物）
-- [ ] 评估是否要把 `scripts/audit-title-history.ps1 -AsJson` 接到后续巡检/CI 产物里，减少人工抄录标题审计摘要。
+- [x] 评估是否要把 `scripts/audit-title-history.ps1 -AsJson` 接到后续巡检/CI 产物里，减少人工抄录标题审计摘要。（结论：值得接入；已把 push 范围的 JSON 审计结果接到 `.github/workflows/title-quality.yml`，并作为 `title-audit-summary` artifact 上传，便于后续下载复核）
+- [~] 观察 `title-audit-summary` artifact 在真实 push 场景中的可读性与复用价值；如果后续巡检仍需要人工二次整理，再决定是否补充更精简的 Markdown/step summary 输出。（已先把 `scripts/audit-title-history.ps1` 扩展为支持 `-AsMarkdown`，并让 `.github/workflows/title-quality.yml` 在 push 后同时产出 JSON + Markdown artifact，且把 Markdown 摘要直接写入 workflow step summary；后续重点观察真实 push 中这份摘要是否已经足够替代人工二次整理）

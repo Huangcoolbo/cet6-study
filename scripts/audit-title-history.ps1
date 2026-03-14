@@ -3,7 +3,8 @@ param(
     [string]$RevisionRange,
     [switch]$FailuresOnly,
     [switch]$SummaryOnly,
-    [switch]$AsJson
+    [switch]$AsJson,
+    [switch]$AsMarkdown
 )
 
 Set-StrictMode -Version Latest
@@ -105,19 +106,64 @@ $failureSummary = @(
 )
 
 $summary = [pscustomobject]@{
-    AuditedCount = $results.Count
-    PassCount    = $results.Count - $failures.Count
-    FailCount    = $failures.Count
-    FailuresOnly = [bool]$FailuresOnly
+    AuditedCount  = $results.Count
+    PassCount     = $results.Count - $failures.Count
+    FailCount     = $failures.Count
+    FailuresOnly  = [bool]$FailuresOnly
     RevisionRange = if ($RevisionRange) { $RevisionRange } else { '' }
 }
 
+$payload = [pscustomobject]@{
+    Summary        = $summary
+    FailureSummary = $failureSummary
+    Results        = @($displayResults)
+}
+
 if ($AsJson) {
-    [pscustomobject]@{
-        Summary        = $summary
-        FailureSummary = $failureSummary
-        Results        = @($displayResults)
-    } | ConvertTo-Json -Depth 6
+    $payload | ConvertTo-Json -Depth 6
+    exit 0
+}
+
+if ($AsMarkdown) {
+    $lines = [System.Collections.Generic.List[string]]::new()
+    $lines.Add('# Title Audit Summary') | Out-Null
+    $lines.Add('') | Out-Null
+    $lines.Add(('- Audited: {0}' -f $summary.AuditedCount)) | Out-Null
+    $lines.Add(('- Passed: {0}' -f $summary.PassCount)) | Out-Null
+    $lines.Add(('- Failed: {0}' -f $summary.FailCount)) | Out-Null
+    if ($summary.RevisionRange) {
+        $lines.Add(('- Revision range: `{0}`' -f $summary.RevisionRange)) | Out-Null
+    }
+    if ($summary.FailuresOnly) {
+        $lines.Add('- Output mode: failures only') | Out-Null
+    }
+
+    if ($failureSummary.Count -gt 0) {
+        $lines.Add('') | Out-Null
+        $lines.Add('## Failure reason summary') | Out-Null
+        $lines.Add('') | Out-Null
+        foreach ($item in $failureSummary) {
+            $lines.Add(('- {0} × {1}' -f $item.Count, $item.Reason)) | Out-Null
+        }
+    }
+
+    if ($displayResults.Count -gt 0) {
+        $lines.Add('') | Out-Null
+        $lines.Add('## Audited titles') | Out-Null
+        $lines.Add('') | Out-Null
+        foreach ($item in $displayResults) {
+            $shortSha = if ($item.Sha.Length -ge 7) { $item.Sha.Substring(0, 7) } else { $item.Sha }
+            if ($item.Status -eq 'PASS') {
+                $lines.Add(('- PASS `{0}` {1}' -f $shortSha, $item.Title)) | Out-Null
+            }
+            else {
+                $lines.Add(('- FAIL `{0}` {1}' -f $shortSha, $item.Title)) | Out-Null
+                $lines.Add(('  - Reason: {0}' -f $item.Reason)) | Out-Null
+            }
+        }
+    }
+
+    $lines -join [Environment]::NewLine
     exit 0
 }
 

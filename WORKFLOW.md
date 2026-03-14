@@ -100,7 +100,7 @@
 仓库已补充几个本机辅助脚本：
 - `scripts/audit-sync-entrypoints.ps1`：重复检查这些本地入口是否仍指向 `D:\Ying` 下的现行脚本，并区分“首选主入口”与“兼容回退入口”
 - `scripts/set-autopush-task-entrypoint.ps1`：把 `CET6StudyAutoPush` 的计划任务动作收敛为直接调用 `D:\Ying\sync-cet6-study.ps1`
-- `scripts/audit-title-history.ps1`：批量回放最近一段 git 历史并按当前 `validate-title.ps1` 规则标记 PASS / FAIL，支持聚合失败原因摘要（必要时可用 `-FailuresOnly` 只看失败项）、`-SummaryOnly` 只输出统计摘要，以及 `-AsJson` 输出结构化结果，方便在“观察标题校验是否误报/漏报”时快速区分“历史遗留坏标题”与“当前规则可能错杀的正常标题”
+- `scripts/audit-title-history.ps1`：批量回放最近一段 git 历史并按当前 `validate-title.ps1` 规则标记 PASS / FAIL，支持聚合失败原因摘要（必要时可用 `-FailuresOnly` 只看失败项）、`-SummaryOnly` 只输出统计摘要，以及 `-AsJson` / `-AsMarkdown` 输出结构化结果与人类可读摘要，方便在“观察标题校验是否误报/漏报”时快速区分“历史遗留坏标题”与“当前规则可能错杀的正常标题”；当前 `title-quality` 工作流已在 push 校验后额外导出对应范围的 JSON + Markdown 审计结果为 `title-audit-summary` artifact，并把 Markdown 摘要直接附到 workflow run summary，减少后续人工下载后再二次整理
 
 ---
 
