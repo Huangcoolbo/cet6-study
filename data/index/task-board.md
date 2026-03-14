@@ -17,10 +17,11 @@
 - 已新增 `index/verified-listening-samples.md` 与 `transcripts/README.md`，把“入口清单”和“已核验可训练样本”正式拆开管理
 - 已补 `transcripts/sample-intake-template.md`，把后续听力样本核验与入库字段固定下来
 - 已修正首批听力推进文档中的相对路径/文件名引用不一致问题，减少后续核验时的伪阻塞
+- 本轮巡检确认：`verified-listening-samples.md` 仍全部处于 `pending`，暂无可上调为 `verified` 的样本；已把“状态一致性维护”明确列为持续内部任务，避免后续进度虚高
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`
-- 持续维护索引层的一致性（`catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` 的相互引用）
+- 持续维护索引层的一致性（`catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` 的相互引用），不把入口状态误写成样本状态
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
 - 用周数据跑一次阶段性评估
 - 基于真实打卡数据，决定是否启用 cron 固定提醒

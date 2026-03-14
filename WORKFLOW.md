@@ -91,6 +91,13 @@
 当前推荐把 `sync-cet6-study.ps1` 视为唯一主同步入口。
 `auto-push.ps1` 可以保留为兼容层，但不建议继续与主脚本并行扩展职责，否则会让同步边界、提交范围和维护责任重新变得模糊。
 
+当前已核对本机两个已知自动入口：
+- `CET6StudyAutoPush` 计划任务当前执行 `D:\Ying\auto-push.ps1`
+- `CET6StudyResumeCatchup` 计划任务当前执行 `D:\Ying\resume-catchup.ps1`
+- `resume-catchup.ps1` 内部再调用 `D:\Ying\sync-cet6-study.ps1`
+
+仓库已补充 `scripts/audit-sync-entrypoints.ps1`，用于重复检查这些本地入口是否仍指向 `D:\Ying` 下的现行脚本，而不是落回旧副本、旧路径或历史导出版本。
+
 ---
 
 ## 5. 钉钉提醒在流程中的位置
