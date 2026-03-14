@@ -1,0 +1,64 @@
+name: Title Quality Checks
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches:
+      - main
+      - master
+      - '**'
+
+jobs:
+  validator-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run title validator regression samples
+        shell: pwsh
+        run: ./scripts/test-validate-title.ps1
+
+  pr-title:
+    if: github.event_name == 'pull_request'
+    needs: validator-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate PR title
+        shell: pwsh
+        run: ./scripts/validate-title.ps1 -Kind pr -Title @'
+${{ github.event.pull_request.title }}
+'@
+
+  commit-titles:
+    if: github.event_name == 'push'
+    needs: validator-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate pushed commit titles
+        shell: pwsh
+        run: |
+          $before = '${{ github.event.before }}'
+          $after = '${{ github.sha }}'
+          if ($before -eq '0000000000000000000000000000000000000000') {
+            Write-Host 'Initial push detected; validating the head commit title only.'
+            $subjects = git log --format=%s -n 1 $after
+          }
+          else {
+            $subjects = git log --format=%s "$before..$after"
+          }
+
+          if (-not $subjects) {
+            Write-Host 'No commit subjects found for this push.'
+            exit 0
+          }
+
+          $subjects -split "`n" | ForEach-Object {
+            $title = $_.Trim()
+            if ($title) {
+              ./scripts/validate-title.ps1 -Kind commit -Title $title
+            }
+          }

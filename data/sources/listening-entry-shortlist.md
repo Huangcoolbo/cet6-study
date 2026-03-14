@@ -31,7 +31,7 @@
 | P3 | 2023 | TC（TingClass） | https://www.tingclass.net/show-5407-3662-1.html | 可作交叉验证与补充 | 补 transcript / 对照年份信息 | 单页价值高，但不适合作总库 |
 | P4 | 2022 | KE（可可英语） | https://m.kekenet.com/cet6/ljtl/cet6zhenti/List_2.shtml | 可继续下钻 | 作为 KE 历史入口延伸核验 | 需确认具体年份落点 |
 | P5 | 2022 | 5X（5xue） | http://5xue.cc/?page_id=2735 | 只作补充线索 | 交叉验证，不单独作为核心训练入口 | 权威性一般 |
-| P6 | 2019 | KE / TC / 5X | 见 `source-year-mapping.md` | 可形成历史训练补充池 | 后续补“哪一来源对应哪一年” | 先级低于 2024/2023 |
+| P6 | 2019 | KE / TC / 5X | 见 `../index/source-year-mapping.md` | 可形成历史训练补充池 | 后续补“哪一来源对应哪一年” | 先级低于 2024/2023 |
 
 ---
 
@@ -90,7 +90,7 @@
 
 1. 先核验 P1（2024-12 / KE）是否能稳定作为首个训练入口
 2. 再把 P2（2023 / KE）与 P3（2023 / TC）补成可交叉使用的第二梯队
-3. 形成首份“已核验听力训练样本”后，再更新 `catalog.md` 与任务状态
+3. 形成首份“已核验听力训练样本”后，再更新 `../index/catalog.md` 与任务状态
 
 ---
 

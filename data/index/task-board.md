@@ -13,9 +13,10 @@
 - 已补上 `daily-logs/2026-03.md`、`reviews/README.md`、`reviews/2026-W11-weekly-review.md`，让真实训练记录有固定落点
 - 本轮根据现有进展补充了一个更具体的内部推进项：先整理“首批可直接训练的听力材料入口清单”，避免在完整卷来源尚未锁定时停滞
 - 已新增 `sources/listening-entry-shortlist.md`，把 2024-12 → 2023 的听力入口按训练优先级固定下来
+- 已新增 `index/verified-listening-samples.md` 与 `transcripts/README.md`，把“入口清单”和“已核验可训练样本”正式拆开管理
 
 ## Next
-- 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，形成首批可直接调用的听力训练样本
+- 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
 - 用周数据跑一次阶段性评估
 - 基于真实打卡数据，决定是否启用 cron 固定提醒

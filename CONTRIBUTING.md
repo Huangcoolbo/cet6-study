@@ -120,6 +120,8 @@
 
 ## 7. PR 描述建议模板
 
+仓库已提供 `.github/PULL_REQUEST_TEMPLATE.md`。
+
 建议在 PR 描述里至少写清楚：
 
 ### What
@@ -134,9 +136,32 @@
 ### Notes
 有没有额外注意事项？有没有不确定的地方？
 
+另外，模板里额外加入了 **commit message 自查项**，目的是把 `COMMIT_MESSAGE_GUIDELINES.md` 的要求前移到提 PR 时，而不是等审查阶段才发现提交标题太空泛。
+
+仓库现在还新增了 `.github/workflows/title-quality.yml`：
+- PR 会检查标题是否符合 `<type>: <specific summary>`
+- push 到仓库时会检查提交标题是否过于空泛
+
+所以这些规范已经不只是“建议阅读”，而是进入了基础自动检查。
+
 ---
 
-## 8. 审查结果通常分四类
+## 8. Commit message 也算贡献质量的一部分
+
+提交标题请尽量具体，不要写成：
+- `update`
+- `fix`
+- `sync`
+- `misc cleanup`
+
+更推荐：
+- `docs: clarify sync responsibilities and repo boundaries`
+- `fix: skip missing source paths in sync-cet6-study.ps1`
+- `data: add CET-6 translation input examples`
+
+详细规范见：`COMMIT_MESSAGE_GUIDELINES.md`
+
+## 9. 审查结果通常分四类
 
 这个仓库的审查通常会落到以下四类：
 
@@ -149,7 +174,7 @@
 
 ---
 
-## 9. 最重要的一条
+## 10. 最重要的一条
 
 提交前请记住：
 
