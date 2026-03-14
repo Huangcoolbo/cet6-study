@@ -5,12 +5,14 @@ $repoRoot = 'D:\Ying'
 $expectedTasks = @(
     @{
         Name = 'CET6StudyAutoPush'
-        ExpectedScript = 'D:\Ying\auto-push.ps1'
-        Note = 'Current scheduled sync wrapper. Wrapper should delegate to sync-cet6-study.ps1.'
+        AllowedScripts = @('D:\Ying\sync-cet6-study.ps1', 'D:\Ying\auto-push.ps1')
+        PreferredScript = 'D:\Ying\sync-cet6-study.ps1'
+        Note = 'Primary scheduled sync entrypoint. sync-cet6-study.ps1 is preferred; auto-push.ps1 is tolerated only as a compatibility fallback.'
     },
     @{
         Name = 'CET6StudyResumeCatchup'
-        ExpectedScript = 'D:\Ying\resume-catchup.ps1'
+        AllowedScripts = @('D:\Ying\resume-catchup.ps1')
+        PreferredScript = 'D:\Ying\resume-catchup.ps1'
         Note = 'Resume catch-up task. Script should call D:\Ying\sync-cet6-study.ps1 after wake.'
     }
 )
@@ -41,15 +43,31 @@ $results = foreach ($task in $expectedTasks) {
     try {
         $taskXml = Get-TaskXml -taskName $task.Name
         $execInfo = Get-ExecArguments -taskXml $taskXml
-        $escapedExpectedScript = [regex]::Escape(('"' + $task.ExpectedScript + '"'))
-        $matchesExpected = $execInfo.Arguments -match $escapedExpectedScript
+
+        $matchedScript = $null
+        foreach ($allowedScript in $task.AllowedScripts) {
+            $escapedScript = [regex]::Escape(('"' + $allowedScript + '"'))
+            if ($execInfo.Arguments -match $escapedScript) {
+                $matchedScript = $allowedScript
+                break
+            }
+        }
+
+        $status = if (-not $matchedScript) {
+            'MISMATCH'
+        } elseif ($matchedScript -eq $task.PreferredScript) {
+            'OK'
+        } else {
+            'FALLBACK'
+        }
 
         [pscustomobject]@{
             TaskName = $task.Name
-            Status = if ($matchesExpected) { 'OK' } else { 'MISMATCH' }
+            Status = $status
             Command = $execInfo.Command
             Arguments = $execInfo.Arguments
-            ExpectedScript = $task.ExpectedScript
+            PreferredScript = $task.PreferredScript
+            AllowedScripts = ($task.AllowedScripts -join '; ')
             Note = $task.Note
         }
     } catch {
@@ -58,7 +76,8 @@ $results = foreach ($task in $expectedTasks) {
             Status = 'ERROR'
             Command = ''
             Arguments = ''
-            ExpectedScript = $task.ExpectedScript
+            PreferredScript = $task.PreferredScript
+            AllowedScripts = ($task.AllowedScripts -join '; ')
             Note = $_.Exception.Message
         }
     }
@@ -68,6 +87,10 @@ $results | Format-Table -AutoSize
 
 if ($results.Status -contains 'ERROR' -or $results.Status -contains 'MISMATCH') {
     exit 1
+}
+
+if ($results.Status -contains 'FALLBACK') {
+    Write-Warning 'At least one task still points at a compatibility fallback instead of the preferred primary entrypoint.'
 }
 
 exit 0

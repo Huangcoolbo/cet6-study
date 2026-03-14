@@ -49,7 +49,7 @@ function Copy-FileIfPresent {
 function Get-CommitMessage {
     $changedPaths = @(git diff --cached --name-only)
     if (-not $changedPaths -or $changedPaths.Count -eq 0) {
-        return 'chore: update tracked CET-6 repository files'
+        return 'chore: adjust tracked CET-6 repository files'
     }
 
     $dataPaths = @($changedPaths | Where-Object { $_ -like 'data/*' -or $_ -like 'data\*' })
@@ -114,7 +114,7 @@ function Get-CommitMessage {
     }
 
     $leafNames = @($changedPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique | Select-Object -First 3)
-    return 'chore: update CET-6 repository files ' + ($leafNames -join ', ')
+    return 'chore: adjust CET-6 repository files ' + ($leafNames -join ', ')
 }
 
 try {
@@ -149,6 +149,7 @@ try {
     }
 
     $commitMessage = Get-CommitMessage
+    & (Join-Path $repoRoot 'scripts\validate-title.ps1') -Kind commit -Title $commitMessage
     git commit -m $commitMessage
     git push origin main
     Write-Output ('CET-6 materials synced and pushed successfully with commit message: ' + $commitMessage)

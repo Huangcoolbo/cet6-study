@@ -92,11 +92,14 @@
 `auto-push.ps1` 可以保留为兼容层，但不建议继续与主脚本并行扩展职责，否则会让同步边界、提交范围和维护责任重新变得模糊。
 
 当前已核对本机两个已知自动入口：
-- `CET6StudyAutoPush` 计划任务当前执行 `D:\Ying\auto-push.ps1`
+- `CET6StudyAutoPush` 计划任务当前应优先直接执行 `D:\Ying\sync-cet6-study.ps1`
 - `CET6StudyResumeCatchup` 计划任务当前执行 `D:\Ying\resume-catchup.ps1`
 - `resume-catchup.ps1` 内部再调用 `D:\Ying\sync-cet6-study.ps1`
+- 如果 `CET6StudyAutoPush` 仍暂时指向 `D:\Ying\auto-push.ps1`，可视为兼容回退状态，但应尽快收敛回主入口
 
-仓库已补充 `scripts/audit-sync-entrypoints.ps1`，用于重复检查这些本地入口是否仍指向 `D:\Ying` 下的现行脚本，而不是落回旧副本、旧路径或历史导出版本。
+仓库已补充两个本机辅助脚本：
+- `scripts/audit-sync-entrypoints.ps1`：重复检查这些本地入口是否仍指向 `D:\Ying` 下的现行脚本，并区分“首选主入口”与“兼容回退入口”
+- `scripts/set-autopush-task-entrypoint.ps1`：把 `CET6StudyAutoPush` 的计划任务动作收敛为直接调用 `D:\Ying\sync-cet6-study.ps1`
 
 ---
 

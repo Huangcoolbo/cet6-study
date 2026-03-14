@@ -18,6 +18,8 @@
 - 已补 `transcripts/sample-intake-template.md`，把后续听力样本核验与入库字段固定下来
 - 已修正首批听力推进文档中的相对路径/文件名引用不一致问题，减少后续核验时的伪阻塞
 - 本轮巡检确认：`verified-listening-samples.md` 仍全部处于 `pending`，暂无可上调为 `verified` 的样本；已把“状态一致性维护”明确列为持续内部任务，避免后续进度虚高
+- 2026-03-14 晚间内部巡检：Todo、任务板、catalog、source-year-mapping、verified-listening-samples 之间当前未发现新的路径/状态冲突；因此不人为上调任何资料状态，继续把首个真实推进点锁定为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-14 21:22 cron 巡检：复查上述索引与入口文件后，确认本轮仍无可安全完成的“状态升级”动作；继续维持现状，避免把未核验入口包装成真实样本进展
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`
