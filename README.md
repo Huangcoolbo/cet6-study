@@ -153,6 +153,7 @@
 - `WORKFLOW.md` — 项目如何运转、谁负责什么、同步链路怎么走
 - `SYNC_POLICY.md` — 同步边界与来源说明
 - `PR_MERGE_POLICY.md` — PR 审查与合并标准
+- `CONTRIBUTING.md` — 其他账号/协作者如何提 PR、哪些内容该提、哪些不要提
 - `data/README.md` — CET-6 资料库说明
 - `data/index/STATE_FILES.md` — 状态文件为什么存在、该如何理解
 
