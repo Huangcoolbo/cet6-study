@@ -206,6 +206,9 @@ if ($AsMarkdown) {
     $lines.Add(('- Audited: {0}' -f $summary.AuditedCount)) | Out-Null
     $lines.Add(('- Passed: {0}' -f $summary.PassCount)) | Out-Null
     $lines.Add(('- Failed: {0}' -f $summary.FailCount)) | Out-Null
+    $lines.Add(('- Known legacy failures: {0}' -f $summary.KnownLegacyFailureCount)) | Out-Null
+    $lines.Add(('- Unknown / investigate failures: {0}' -f $summary.UnknownFailureCount)) | Out-Null
+    $lines.Add(('- Outcome: `{0}`' -f $summary.Outcome)) | Out-Null
     if ($summary.RevisionRange) {
         $lines.Add(('- Revision range: `{0}`' -f $summary.RevisionRange)) | Out-Null
     }
@@ -222,7 +225,8 @@ if ($AsMarkdown) {
         $lines.Add('## Failure reason summary') | Out-Null
         $lines.Add('') | Out-Null
         foreach ($item in $failureSummary) {
-            $lines.Add(('- {0} x {1}' -f $item.Count, $item.Reason)) | Out-Null
+            $bucketLabel = if ($item.IsKnownLegacy) { 'known-legacy' } else { 'investigate' }
+            $lines.Add(('- {0} x {1} [{2}]' -f $item.Count, $item.Reason, $bucketLabel)) | Out-Null
             foreach ($sample in @($item.Samples)) {
                 $sampleShortSha = if ($sample.Sha.Length -ge 7) { $sample.Sha.Substring(0, 7) } else { $sample.Sha }
                 $lines.Add(('  - e.g. `{0}` {1}' -f $sampleShortSha, $sample.Title)) | Out-Null
@@ -271,6 +275,7 @@ if (-not $SummaryOnly) {
 }
 
 Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail. Outcome: {3}." -f $summary.AuditedCount, $summary.PassCount, $summary.FailCount, $summary.Outcome)
+Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount)
 Write-Host ("Suggested action: {0}" -f $suggestedAction)
 
 if ($failureSummary.Count -gt 0) {
