@@ -27,6 +27,7 @@
 - 2026-03-14 21:47 cron 巡检：再次对照 `Todo.md`、`index/task-board.md`、`index/catalog.md`、`index/source-year-mapping.md`、`index/verified-listening-samples.md`、`sources/listening-entry-shortlist.md` 与 `transcripts/sample-intake-template.md`，仍无新的可安全完成项；本轮仅补记“无实质变化”，不重复新增同类任务，下一真实推进点保持不变
 - 2026-03-14 21:52 cron 巡检：继续复查 `Todo.md`、`index/task-board.md`、`index/catalog.md`、`index/source-year-mapping.md`、`index/verified-listening-samples.md`、`sources/listening-entry-shortlist.md` 与 `transcripts/sample-intake-template.md`，仍未发现新的可安全完成项；本轮仅同步“无实质变化”的状态回写，不重复补同类后续任务，真实推进点继续锁定为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-14 21:57 cron 巡检：在不伪造样本核验进展的前提下，新增 `index/listening-verification-queue.md`，把 P1/P2/P3 的实际核验顺位与最小检查项固定下来；本轮推进的是执行口径收紧，不是状态升级，首个真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-14 22:02 cron 巡检：新增 `index/maintenance-log.md`，把后续高频“无实质变化”的一致性巡检从主任务板分流记录，避免主线文件持续膨胀；本轮未上调任何样本/年份状态，真实推进点仍不变
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`

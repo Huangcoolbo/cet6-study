@@ -70,11 +70,13 @@ ${{ github.event.pull_request.title }}
           $after = '${{ github.sha }}'
           if ($before -eq '0000000000000000000000000000000000000000') {
             ./scripts/audit-title-history.ps1 -Count 1 -AsJson | Set-Content -Path artifacts/title-audit-summary.json -Encoding utf8
-            ./scripts/audit-title-history.ps1 -Count 1 -AsMarkdown | Set-Content -Path artifacts/title-audit-summary.md -Encoding utf8
+            ./scripts/audit-title-history.ps1 -Count 1 -AsMarkdown -Compact | Set-Content -Path artifacts/title-audit-summary.md -Encoding utf8
+            ./scripts/audit-title-history.ps1 -Count 1 -AsMarkdown | Set-Content -Path artifacts/title-audit-details.md -Encoding utf8
           }
           else {
             ./scripts/audit-title-history.ps1 -RevisionRange "$before..$after" -AsJson | Set-Content -Path artifacts/title-audit-summary.json -Encoding utf8
-            ./scripts/audit-title-history.ps1 -RevisionRange "$before..$after" -AsMarkdown | Set-Content -Path artifacts/title-audit-summary.md -Encoding utf8
+            ./scripts/audit-title-history.ps1 -RevisionRange "$before..$after" -AsMarkdown -Compact | Set-Content -Path artifacts/title-audit-summary.md -Encoding utf8
+            ./scripts/audit-title-history.ps1 -RevisionRange "$before..$after" -AsMarkdown | Set-Content -Path artifacts/title-audit-details.md -Encoding utf8
           }
       - name: Append pushed commit title audit summary to workflow run
         shell: pwsh
@@ -87,4 +89,5 @@ ${{ github.event.pull_request.title }}
           path: |
             artifacts/title-audit-summary.json
             artifacts/title-audit-summary.md
+            artifacts/title-audit-details.md
           if-no-files-found: error

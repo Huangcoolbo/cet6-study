@@ -99,9 +99,21 @@ $failureSummary = @(
             @{ Expression = 'Name'; Descending = $false }
         ) |
         ForEach-Object {
+            $samples = @(
+                $_.Group |
+                    Select-Object -First 3 |
+                    ForEach-Object {
+                        [pscustomobject]@{
+                            Sha   = $_.Sha
+                            Title = $_.Title
+                        }
+                    }
+            )
+
             [pscustomobject]@{
-                Reason = $_.Name
-                Count  = $_.Count
+                Reason  = $_.Name
+                Count   = $_.Count
+                Samples = $samples
             }
         }
 )
@@ -112,6 +124,7 @@ $summary = [pscustomobject]@{
     FailCount     = $failures.Count
     FailuresOnly  = [bool]$FailuresOnly
     RevisionRange = if ($RevisionRange) { $RevisionRange } else { '' }
+    Outcome       = if ($failures.Count -eq 0) { 'clean' } else { 'needs-review' }
 }
 
 $payload = [pscustomobject]@{
@@ -147,8 +160,18 @@ if ($AsMarkdown) {
         $lines.Add('## Failure reason summary') | Out-Null
         $lines.Add('') | Out-Null
         foreach ($item in $failureSummary) {
-            $lines.Add(('- {0} × {1}' -f $item.Count, $item.Reason)) | Out-Null
+            $lines.Add(('- {0} x {1}' -f $item.Count, $item.Reason)) | Out-Null
+            foreach ($sample in @($item.Samples)) {
+                $sampleShortSha = if ($sample.Sha.Length -ge 7) { $sample.Sha.Substring(0, 7) } else { $sample.Sha }
+                $lines.Add(('  - e.g. `{0}` {1}' -f $sampleShortSha, $sample.Title)) | Out-Null
+            }
         }
+    }
+    else {
+        $lines.Add('') | Out-Null
+        $lines.Add('## Failure reason summary') | Out-Null
+        $lines.Add('') | Out-Null
+        $lines.Add('- No failing titles found in this audit slice.') | Out-Null
     }
 
     if (-not $Compact -and $displayResults.Count -gt 0) {
@@ -185,13 +208,16 @@ if (-not $SummaryOnly) {
     Write-Host ''
 }
 
-Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail." -f $summary.AuditedCount, $summary.PassCount, $summary.FailCount)
+Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail. Outcome: {3}." -f $summary.AuditedCount, $summary.PassCount, $summary.FailCount, $summary.Outcome)
 
 if ($failureSummary.Count -gt 0) {
     Write-Host ''
     Write-Host 'Failure reason summary:' -ForegroundColor Yellow
     $failureSummary | ForEach-Object {
         Write-Host ("- {0} x {1}" -f $_.Count, $_.Reason) -ForegroundColor DarkYellow
+        foreach ($sample in @($_.Samples)) {
+            Write-Host ("  - e.g. {0} {1}" -f $sample.Sha.Substring(0, 7), $sample.Title) -ForegroundColor DarkYellow
+        }
     }
 
     Write-Host ''
