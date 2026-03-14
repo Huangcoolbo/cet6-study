@@ -7,6 +7,9 @@
 - `words.tsv`：单词 + 中文释义
 - `sentences.tsv`：英文句子 + 中文释义
 - `expressions.tsv`：常用表达 + 中文释义
+- `writing-lines.tsv`：写作可复用句 + 中文
+- `translation-lines.tsv`：翻译训练句对照
+- `listening-paraphrases.tsv`：听力常见同义替换输入
 
 ## 格式
 
