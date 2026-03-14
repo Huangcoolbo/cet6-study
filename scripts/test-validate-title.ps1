@@ -11,6 +11,8 @@ $cases = @(
     @{ Kind = 'commit'; Title = 'chore: add regression coverage for title validator'; ShouldPass = $true },
     @{ Kind = 'pr'; Title = 'review: tighten title validation examples'; ShouldPass = $true },
     @{ Kind = 'pr'; Title = 'docs: clarify sync responsibilities in contribution guide'; ShouldPass = $true },
+    @{ Kind = 'commit'; Title = 'data: refresh CET-6 study data and DingTalk reminder state'; ShouldPass = $true },
+    @{ Kind = 'commit'; Title = 'fix: clarify automation guidance and repository checks'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'Merge branch ''master'' into main'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'Merge pull request #12 from teammate/docs-title-fix'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'Merge master into main'; ShouldPass = $true },
@@ -25,6 +27,8 @@ $cases = @(
     @{ Kind = 'pr'; Title = 'docs: clarify sync policy on 2026-03-14'; ShouldPass = $false },
     @{ Kind = 'commit'; Title = 'Update auto-sync workflow from D:\Bo to D:\Ying'; ShouldPass = $false },
     @{ Kind = 'commit'; Title = 'Update auto-push script to target main'; ShouldPass = $false },
+    @{ Kind = 'commit'; Title = 'update CET-6 study data and DingTalk reminder state; clarify project documentation; adjust repository automation'; ShouldPass = $false },
+    @{ Kind = 'commit'; Title = 'data: update CET-6 study data and DingTalk reminder state'; ShouldPass = $false },
     @{ Kind = 'commit'; Title = 'docs: update'; ShouldPass = $false },
     @{ Kind = 'commit'; Title = 'docs: README'; ShouldPass = $false },
     @{ Kind = 'commit'; Title = 'fix: typo'; ShouldPass = $false },
@@ -35,8 +39,13 @@ $cases = @(
 $failures = [System.Collections.Generic.List[string]]::new()
 
 foreach ($case in $cases) {
-    & pwsh -NoProfile -File $scriptPath -Kind $case.Kind -Title $case.Title *> $null
-    $passed = $LASTEXITCODE -eq 0
+    try {
+        & $scriptPath -Kind $case.Kind -Title $case.Title *> $null
+        $passed = $true
+    }
+    catch {
+        $passed = $false
+    }
 
     if ($passed -ne $case.ShouldPass) {
         $expected = if ($case.ShouldPass) { 'pass' } else { 'fail' }

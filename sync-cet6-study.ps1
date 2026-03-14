@@ -49,60 +49,72 @@ function Copy-FileIfPresent {
 function Get-CommitMessage {
     $changedPaths = @(git diff --cached --name-only)
     if (-not $changedPaths -or $changedPaths.Count -eq 0) {
-        return 'update tracked CET-6 repository files'
+        return 'chore: update tracked CET-6 repository files'
     }
 
     $dataPaths = @($changedPaths | Where-Object { $_ -like 'data/*' -or $_ -like 'data\*' })
     $planPaths = @($changedPaths | Where-Object { $_ -like 'plans/*' -or $_ -like 'plans\*' })
-    $docPaths = @($changedPaths | Where-Object { $_ -match '(^|[\\/])(README\.md|WORKFLOW\.md|SYNC_POLICY\.md|PR_MERGE_POLICY\.md|CONTRIBUTING\.md|Todo\.md)$' -or $_ -like 'data/index/STATE_FILES.md' })
+    $docPaths = @($changedPaths | Where-Object { $_ -match '(^|[\\/])(README\.md|WORKFLOW\.md|SYNC_POLICY\.md|PR_MERGE_POLICY\.md|CONTRIBUTING\.md|Todo\.md|COMMIT_MESSAGE_GUIDELINES\.md)$' -or $_ -like 'data/index/STATE_FILES.md' })
     $scriptPaths = @($changedPaths | Where-Object { $_ -like '*.ps1' -or $_ -like '.github/*' -or $_ -like '.github\*' -or $_ -like 'scripts/*' -or $_ -like 'scripts\*' })
 
-    $parts = New-Object System.Collections.Generic.List[string]
-
-    if ($dataPaths.Count -gt 0) {
+    if ($dataPaths.Count -gt 0 -and $planPaths.Count -eq 0 -and $docPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
         if ($dataPaths -contains 'data/index/dingtalk-state.json') {
-            $parts.Add('update CET-6 study data and DingTalk reminder state')
-        } elseif ($dataPaths.Count -le 3) {
-            $leafNames = @($dataPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique)
-            $parts.Add('update CET-6 data: ' + ($leafNames -join ', '))
-        } else {
-            $parts.Add('update CET-6 study data')
+            return 'data: refresh CET-6 study data and DingTalk reminder state'
         }
+
+        if ($dataPaths.Count -le 3) {
+            $leafNames = @($dataPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique)
+            return 'data: update CET-6 data files ' + ($leafNames -join ', ')
+        }
+
+        return 'data: update CET-6 study data'
     }
 
-    if ($planPaths.Count -gt 0) {
+    if ($planPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $docPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
         if ($planPaths.Count -le 2) {
             $leafNames = @($planPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique)
-            $parts.Add('refresh study plans: ' + ($leafNames -join ', '))
-        } else {
-            $parts.Add('refresh study plans')
+            return 'plan: refresh study plans ' + ($leafNames -join ', ')
         }
+
+        return 'plan: refresh study plans'
     }
 
-    if ($docPaths.Count -gt 0) {
+    if ($docPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
         if ($docPaths.Count -le 2) {
             $leafNames = @($docPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique)
-            $parts.Add('clarify docs: ' + ($leafNames -join ', '))
-        } else {
-            $parts.Add('clarify project documentation')
+            return 'docs: clarify repository docs ' + ($leafNames -join ', ')
         }
+
+        return 'docs: clarify CET-6 project documentation'
     }
 
-    if ($scriptPaths.Count -gt 0) {
+    if ($scriptPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $docPaths.Count -eq 0) {
         if ($scriptPaths.Count -le 2) {
             $leafNames = @($scriptPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique)
-            $parts.Add('adjust automation: ' + ($leafNames -join ', '))
-        } else {
-            $parts.Add('adjust repository automation')
+            return 'fix: adjust repository automation ' + ($leafNames -join ', ')
         }
+
+        return 'fix: adjust CET-6 repository automation'
     }
 
-    if ($parts.Count -eq 0) {
-        $leafNames = @($changedPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -First 3)
-        return 'update repository files: ' + ($leafNames -join ', ')
+    if ($dataPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0 -and $docPaths.Count -eq 0) {
+        return 'sync: align CET-6 materials from D:\Bo'
     }
 
-    return ($parts | Select-Object -First 3) -join '; '
+    if ($dataPaths.Count -gt 0 -and $docPaths.Count -gt 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+        return 'data: update CET-6 study data and related documentation'
+    }
+
+    if ($docPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+        return 'fix: clarify automation guidance and repository checks'
+    }
+
+    if ($planPaths.Count -gt 0 -and $dataPaths.Count -gt 0 -and $docPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+        return 'plan: refresh study plans and supporting CET-6 data'
+    }
+
+    $leafNames = @($changedPaths | ForEach-Object { Split-Path $_ -Leaf } | Select-Object -Unique | Select-Object -First 3)
+    return 'chore: update CET-6 repository files ' + ($leafNames -join ', ')
 }
 
 try {
