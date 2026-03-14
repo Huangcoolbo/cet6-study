@@ -150,8 +150,10 @@
 
 ## 9. 相关文档
 
+- `WORKFLOW.md` — 项目如何运转、谁负责什么、同步链路怎么走
 - `SYNC_POLICY.md` — 同步边界与来源说明
 - `PR_MERGE_POLICY.md` — PR 审查与合并标准
 - `data/README.md` — CET-6 资料库说明
+- `data/index/STATE_FILES.md` — 状态文件为什么存在、该如何理解
 
-如果你是第一次进入这个仓库，建议先看本 README，再看 `SYNC_POLICY.md`。
+如果你是第一次进入这个仓库，建议先看本 README，再看 `WORKFLOW.md` 和 `SYNC_POLICY.md`。
