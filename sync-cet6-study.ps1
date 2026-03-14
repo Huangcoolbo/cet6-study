@@ -53,6 +53,10 @@ try {
         $source = $pair.Source
         $target = $pair.Target
 
+        if (-not (Test-Path $source)) {
+            continue
+        }
+
         if ((Get-Item $source).PSIsContainer) {
             Invoke-RobocopySync -Source $source -Target $target
         } else {
