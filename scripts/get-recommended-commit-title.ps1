@@ -140,7 +140,7 @@ if ($planPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $docPaths.Count -eq 
     exit 0
 }
 
-if (($changedPaths -contains '.gitignore') -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('.gitignore')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
     Write-Output 'chore: refine local audit artifact ignore rules and workflow notes'
     exit 0
 }
@@ -172,7 +172,7 @@ if ($scriptPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -
     exit 0
 }
 
-if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
     Write-Output 'review: track DingTalk state follow-up and workflow notes'
     exit 0
 }
@@ -209,7 +209,7 @@ if ($titleQualityWorkflowTouched -and (Test-AnyPathMatch -Paths $changedPaths -C
     }
 }
 
-if (($changedPaths -contains 'auto-push.ps1') -and ($changedPaths -contains 'resume-catchup.ps1') -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('auto-push.ps1')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('resume-catchup.ps1')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
     Write-Output 'fix: refine sync entrypoint compatibility and workflow notes'
     exit 0
 }

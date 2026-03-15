@@ -12,6 +12,7 @@
 ## New Progress
 - 已建立 `sources/complete-paper-candidates.md`，把完整试卷/答案来源与听力来源拆开管理
 - 已新增 `index/starter-practice-packs.md`，基于本地 `input/` 数据源固定 5 个可直接在 Discord 主通道调用的 30 分钟微训练题包，作为真实听力样本核验前的开练兜底包
+- 已基于现有微训练题包向 `input/writing-lines.tsv` 与 `input/translation-lines.tsv` 回收首批可复用句型，先把写作 / 翻译弱项输出池从“只有最小样本”补到可持续轮换的厚度，后续再用真实打卡数据筛掉低价值句型
 - 后续新增完整卷候选来源时，先登记到候选池，再决定是否写入正式索引
 - 已补上 `daily-logs/2026-03.md`、`reviews/README.md`、`reviews/2026-W11-weekly-review.md`，让真实训练记录有固定落点
 - 本轮根据现有进展补充了一个更具体的内部推进项：先整理“首批可直接训练的听力材料入口清单”，避免在完整卷来源尚未锁定时停滞

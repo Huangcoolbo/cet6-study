@@ -67,6 +67,10 @@ function Get-SuggestedAction {
     )
 
     if ($Summary.FailCount -eq 0) {
+        if ($Summary.NeedsNamingReview) {
+            return 'Validation is clean, but repeated-title hotspots are still strong enough to justify another look at naming specificity before history and workflow summaries get too repetitive.'
+        }
+
         return 'No follow-up needed; current audit slice is clean.'
     }
 
@@ -238,6 +242,13 @@ $topRepeatedTitleStatusMix = if (@($topRepeatedTitleSampleStatuses).Count -gt 0)
 else {
     ''
 }
+$passOnlyRepeatedTitleCount = @(
+    $repeatedTitles |
+        Where-Object {
+            @($_.Samples | Where-Object Status -ne 'PASS').Count -eq 0
+        }
+).Count
+$needsNamingReview = [bool]($failures.Count -eq 0 -and $topRepeatedTitle -and $topRepeatedTitle.Count -ge 3)
 
 $auditScope = Get-AuditScope -Count $Count -RevisionRange $RevisionRange
 
@@ -249,11 +260,13 @@ $summary = [pscustomobject]@{
     PassCount                = $results.Count - $failures.Count
     FailCount                = $failures.Count
     FailureBucketCount       = $failureSummary.Count
-    RepeatedTitleCount       = $repeatedTitles.Count
-    TopRepeatedTitleCount    = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Count } else { 0 }
-    TopRepeatedTitle         = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Title } else { '' }
+    RepeatedTitleCount        = $repeatedTitles.Count
+    PassOnlyRepeatedTitleCount = $passOnlyRepeatedTitleCount
+    TopRepeatedTitleCount     = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Count } else { 0 }
+    TopRepeatedTitle          = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Title } else { '' }
     TopRepeatedTitleStatusMix = $topRepeatedTitleStatusMix
-    KnownLegacyFailureCount  = $knownLegacyFailureCount
+    NeedsNamingReview         = $needsNamingReview
+    KnownLegacyFailureCount   = $knownLegacyFailureCount
     UnknownFailureCount      = $unknownFailureCount
     LegacyOnlyFailures       = [bool]($failures.Count -gt 0 -and $unknownFailureCount -eq 0)
     HasFailures              = [bool]($failures.Count -gt 0)
@@ -297,11 +310,13 @@ if ($AsMarkdown) {
     $lines.Add(('- Unknown / investigate failures: {0}' -f $summary.UnknownFailureCount)) | Out-Null
     $lines.Add(('- Failure buckets: {0}' -f $summary.FailureBucketCount)) | Out-Null
     $lines.Add(('- Repeated titles: {0}' -f $summary.RepeatedTitleCount)) | Out-Null
+    $lines.Add(('- PASS-only repeated titles: {0}' -f $summary.PassOnlyRepeatedTitleCount)) | Out-Null
     if ($summary.TopRepeatedTitleCount -gt 0) {
         $lines.Add(('- Top repeated title: {0} x `{1}` [{2}]' -f $summary.TopRepeatedTitleCount, $summary.TopRepeatedTitle, $summary.TopRepeatedTitleStatusMix)) | Out-Null
     }
     $lines.Add(('- Outcome: `{0}`' -f $summary.Outcome)) | Out-Null
     $lines.Add(('- Needs review: `{0}`' -f $summary.NeedsReview.ToString().ToLowerInvariant())) | Out-Null
+    $lines.Add(('- Needs naming review: `{0}`' -f $summary.NeedsNamingReview.ToString().ToLowerInvariant())) | Out-Null
     if ($summary.RevisionRange) {
         $lines.Add(('- Revision range: `{0}`' -f $summary.RevisionRange)) | Out-Null
     }
@@ -398,11 +413,12 @@ if (-not $SummaryOnly) {
 }
 
 Write-Host ("Audited {0} commit title(s) from {1}: {2} pass, {3} fail. Outcome: {4}." -f $summary.AuditedCount, $summary.AuditScope, $summary.PassCount, $summary.FailCount, $summary.Outcome)
-Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}; failure buckets: {2}; repeated titles: {3}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount, $summary.FailureBucketCount, $summary.RepeatedTitleCount)
+Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}; failure buckets: {2}; repeated titles: {3}; PASS-only repeated titles: {4}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount, $summary.FailureBucketCount, $summary.RepeatedTitleCount, $summary.PassOnlyRepeatedTitleCount)
 if ($summary.TopRepeatedTitleCount -gt 0) {
     Write-Host ("Top repeated title: {0} x {1} [{2}]" -f $summary.TopRepeatedTitleCount, $summary.TopRepeatedTitle, $summary.TopRepeatedTitleStatusMix)
 }
 Write-Host ("Needs review: {0}." -f $summary.NeedsReview.ToString().ToLowerInvariant())
+Write-Host ("Needs naming review: {0}." -f $summary.NeedsNamingReview.ToString().ToLowerInvariant())
 if ($summary.NewestCommit) {
     Write-Host ("Newest commit in scope: {0} {1}" -f $summary.NewestCommit.Substring(0, 7), $summary.NewestTitle)
 }

@@ -9,6 +9,10 @@ $cases = @(
         Expected = 'review: track DingTalk state follow-up and workflow notes'
     },
     @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'dingtalk-state.json')
+        Expected = 'review: track DingTalk state follow-up and workflow notes'
+    },
+    @{
         Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'scripts/audit-title-history.ps1')
         Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
@@ -49,6 +53,10 @@ $cases = @(
         Expected = 'fix: refine sync entrypoint compatibility and workflow notes'
     },
     @{
+        Paths = @('scripts\\auto-push.ps1', 'resume-catchup.ps1', 'Todo.md', 'WORKFLOW.md')
+        Expected = 'fix: refine sync entrypoint compatibility and workflow notes'
+    },
+    @{
         Paths = @('data/index/dingtalk-state.json', 'WORKFLOW.md')
         Expected = 'data: refresh DingTalk reminder state and supporting docs'
     },
@@ -70,6 +78,10 @@ $cases = @(
     },
     @{
         Paths = @('.gitignore', 'Todo.md', 'WORKFLOW.md')
+        Expected = 'chore: refine local audit artifact ignore rules and workflow notes'
+    },
+    @{
+        Paths = @('repo/.gitignore', 'Todo.md', 'WORKFLOW.md')
         Expected = 'chore: refine local audit artifact ignore rules and workflow notes'
     },
     @{
