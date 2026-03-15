@@ -57,7 +57,7 @@ function Get-MixedAreaSummary {
         return ($areaLabels -join ', ')
     }
 
-    $leafNames = Get-LeafList -Paths $ChangedPaths
+    $leafNames = @(Get-LeafList -Paths $ChangedPaths)
     if ($leafNames.Count -gt 0) {
         return ($leafNames -join ', ')
     }
@@ -129,6 +129,31 @@ if ($scriptPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -
     exit 0
 }
 
+if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+    Write-Output 'review: track DingTalk state follow-up and workflow notes'
+    exit 0
+}
+
+if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
+    Write-Output 'fix: refine DingTalk state workflow automation and follow-up tracking'
+    exit 0
+}
+
+if ($dataPaths.Count -gt 0 -and $docPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
+    $indexDataPaths = @($dataPaths | Where-Object { $_ -like 'data/index/*' -or $_ -like 'data\index\*' })
+    $dingtalkStateTouched = $dataPaths -contains 'data/index/dingtalk-state.json'
+
+    if ($dingtalkStateTouched -and $indexDataPaths.Count -eq $dataPaths.Count) {
+        Write-Output 'fix: refine DingTalk state workflow automation and docs'
+        exit 0
+    }
+
+    if ($indexDataPaths.Count -eq $dataPaths.Count) {
+        Write-Output 'fix: refine index data workflow automation and docs'
+        exit 0
+    }
+}
+
 if ($dataPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0 -and $docPaths.Count -eq 0) {
     $dataLeafNames = Get-LeafList -Paths $dataPaths -Limit 2
     if ($dataLeafNames.Count -gt 0) {
@@ -137,11 +162,6 @@ if ($dataPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $planPaths.Count -
     }
 
     Write-Output 'sync: refresh CET-6 data and automation'
-    exit 0
-}
-
-if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
-    Write-Output 'review: track DingTalk state follow-up and workflow notes'
     exit 0
 }
 

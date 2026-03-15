@@ -15,6 +15,8 @@ $cases = @(
     @{ Kind = 'commit'; Title = 'data: refresh DingTalk reminder state and supporting docs'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'docs: clarify index data guidance and shared state files'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'fix: clarify automation guidance and repository checks'; ShouldPass = $true },
+    @{ Kind = 'commit'; Title = 'fix: refine DingTalk state workflow automation and docs'; ShouldPass = $true },
+    @{ Kind = 'commit'; Title = 'fix: refine DingTalk state workflow automation and follow-up tracking'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'chore: adjust CET-6 repository files Todo.md, WORKFLOW.md, dingtalk-state.json'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'Merge branch ''master'' into main'; ShouldPass = $true },
     @{ Kind = 'commit'; Title = 'Merge pull request #12 from teammate/docs-title-fix'; ShouldPass = $true },

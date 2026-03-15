@@ -8,7 +8,7 @@
 - 为每日训练生成首批可直接使用的题目
 - 等待首轮实际打卡数据，用于验证阶段性进度评估规则
 - 基于 `transcripts/sample-intake-template.md` 统一后续听力样本核验与入库格式
-- 为钉钉订阅补启动 / 停止 / 恢复控制能力与内容频率配置入口
+- 继续观察钉钉链路稳定性，并等待用户确认作息窗口后做小范围真实提醒测试
 
 ## New Progress
 - 已建立 `sources/complete-paper-candidates.md`，把完整试卷/答案来源与听力来源拆开管理
@@ -36,6 +36,8 @@
 - 2026-03-15 13:44 cron 巡检：继续沿 Discord 主学习通道补齐专项流程，新增 `index/discord-translation-flow.md` 与 `index/discord-writing-flow.md`，分别把 `今日翻译` / `今日写作` 的 30 分钟任务骨架、分轮提交格式、错因追问逻辑与严格监督型完成判定固定下来；Todo 中“设计 Discord 翻译专项互动流程”“设计 Discord 写作专项互动流程”已改为完成。该动作属于内部流程补全，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 13:49 cron 巡检：继续沿 Discord 主学习通道补齐快捷入口，新增 `index/discord-shortcuts.md`，把 `查看计划` / `查看弱项` / `今日复盘` 的标准返回模板、数据读取顺序、无真实数据时的默认回退口径固定下来；Todo 中“设计 Discord 弱项查询 / 今日复盘 / 查看计划 等快捷入口”已改为完成。该动作属于内部流程补全，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 14:14 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-shortcuts.md`、`reviews/2026-W11-weekly-review.md` 与 `index/stage-progress-evaluation.md` 后，确认当前可安全推进的内部动作是先补“查看本周进度”的周级快捷入口骨架，而不是继续重复扩写日级模板；本轮新增 `index/discord-weekly-progress-shortcut.md`，明确其取数顺序、标准返回结构与“无真实数据不伪造统计”的口径，并将 Todo 对应设计项补记为完成。该动作属于内部流程补全，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-15 14:19 cron 巡检：复查 `Todo.md`、`cet6-coach/SKILL.md`、`skills/cet6-coach/references/discord-shortcuts.md` 与 `index/discord-weekly-progress-shortcut.md` 后，确认“查看本周进度”虽已设计，但仍未正式接入 skill 参考层；本轮新增 `skills/cet6-coach/references/discord-weekly-progress.md`，并在 `SKILL.md` 中补上 Discord 周级入口读取说明，同时将 Todo 中对应接线项记为完成，并把任务板中已过时的“再补查看本周进度入口”改写为“待真实周数据后收紧字段口径”。该动作属于内部流程收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-15 14:24 cron 巡检：复查 `Todo.md`、`index/reminder-plan.md`、`index/automation-evaluation.md`、`index/reminder-copy-style.md`、`index/dingtalk-state.json` 与 `index/dingtalk-task.log` 后，确认当前可安全完成的内部推进项是先把钉钉订阅的控制面补齐，而不是继续停留在“只有发送日志”的状态；本轮新增 `index/dingtalk-subscription-controls.md`，将 `start / pause / resume` 控制动作、`contentTypes / schedule` 配置入口与 `dingtalk-state.json` 的状态结构固定下来，并同步将 Todo 中两项钉钉订阅后续记为完成。该动作属于内部自动化设计收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1 入口（`2024-12 / KE`），再推进 P2/P3，并把首批结果写入 `index/verified-listening-samples.md`
@@ -46,8 +48,6 @@
 - 用周数据跑一次阶段性评估
 - 等首轮真实打卡数据出现后，收紧 Discord 快捷入口与评分回退口径，减少“待补真实数据”占比
 - 等首轮真实周数据出现后，收紧“查看本周进度”的字段与判断口径，并与周复盘 / 阶段评估口径继续打通
-- 为钉钉订阅补启动 / 停止 / 恢复控制能力
-- 为钉钉订阅补内容类型与频率配置入口
 - 在用户确认作息窗口后，做一次小范围提醒测试
 
 ## Blocked

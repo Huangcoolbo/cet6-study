@@ -1,16 +1,38 @@
-﻿{
-    "recent":  [
-                   "be faced with\t面临。",
-                   "有效的学习依赖重复和反思。\tEffective learning depends on repetition and reflection.",
-                   "generate\t产生；引起。",
-                   "beneficial\t有益的；有利的。",
-                   "Learning is more effective when mistakes are reviewed in time.\t及时复盘错误时，学习会更有效。",
-                   "be aware of\t意识到。",
-                   "From my perspective, effective learning requires both effort and reflection.\t在我看来，高效学习既需要努力，也需要反思。",
-                   "significant\t重要的；显著的。",
-                   "Compared with passive input, active output leaves a deeper impression.\t与被动输入相比，主动输出会留下更深的印象。",
-                   "More importantly, a clear plan helps us use limited time wisely.\t更重要的是，清晰的计划能帮助我们更明智地利用有限时间。",
-                   "Translation requires understanding before expression.\t翻译要求先理解，再表达。",
-                   "reliable\t可靠的。"
-               ]
+{
+  "subscription": {
+    "status": "active",
+    "lastControlAction": "start",
+    "lastControlAt": "2026-03-15T14:24:00+08:00"
+  },
+  "contentTypes": {
+    "vocab": true,
+    "sentence": true,
+    "translation": true,
+    "writing": true,
+    "reminder": false,
+    "review": false
+  },
+  "schedule": {
+    "mode": "interval",
+    "intervalMinutes": 10,
+    "activeHours": {
+      "start": "12:20",
+      "end": "22:30"
+    },
+    "maxPerDay": 24
+  },
+  "recent": [
+    "有效的学习依赖重复和反思。\tEffective learning depends on repetition and reflection.",
+    "generate\t产生；引起。",
+    "beneficial\t有益的；有利的。",
+    "Learning is more effective when mistakes are reviewed in time.\t及时复盘错误时，学习会更有效。",
+    "be aware of\t意识到。",
+    "From my perspective, effective learning requires both effort and reflection.\t在我看来，高效学习既需要努力，也需要反思。",
+    "significant\t重要的；显著的。",
+    "Compared with passive input, active output leaves a deeper impression.\t与被动输入相比，主动输出会留下更深的印象。",
+    "More importantly, a clear plan helps us use limited time wisely.\t更重要的是，清晰的计划能帮助我们更明智地利用有限时间。",
+    "Translation requires understanding before expression.\t翻译要求先理解，再表达。",
+    "reliable\t可靠的。",
+    "机会总是留给有准备的人。\tOpportunity favors the prepared mind."
+  ]
 }
