@@ -17,6 +17,7 @@
 - 不宣称为真题；统一表述为“微训练题包”或“本地训练包”
 - 每次只取 1 包，不混发太多内容
 - 做完后仍按 `discord-main-channel.md` / `discord-scoring-review.md` 的评分与复盘顺序执行
+- 写作 / 翻译 / 高频监督表达的优先取料，先看 `../input/priority-rotation.md`；只有当高优先级轮换层不够用时，才回到原始 TSV 补位
 - 一旦 `verified-listening-samples.md` 出现真实可训练样本，听力主块应优先切回真实样本
 
 ---

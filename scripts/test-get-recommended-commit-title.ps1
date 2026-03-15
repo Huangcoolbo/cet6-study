@@ -73,6 +73,10 @@ $cases = @(
         Expected = 'data: refresh DingTalk reminder state and supporting docs'
     },
     @{
+        Paths = @('dingtalk-state.json', 'WORKFLOW.md')
+        Expected = 'data: refresh DingTalk reminder state and supporting docs'
+    },
+    @{
         Paths = @('data/index/STATE_FILES.md', 'WORKFLOW.md')
         Expected = 'docs: clarify index data guidance and shared state files'
     },
@@ -95,6 +99,10 @@ $cases = @(
     @{
         Paths = @('repo/.gitignore', 'Todo.md', 'WORKFLOW.md')
         Expected = 'chore: refine local audit artifact ignore rules and workflow notes'
+    },
+    @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'get-recommended-commit-title.ps1')
+        Expected = 'fix: refine title audit workflow guidance and backlog tracking'
     },
     @{
         Paths = @('data/index/dingtalk-state.json', 'data/index/discord-study-flow.md', 'scripts/audit-title-history.ps1')

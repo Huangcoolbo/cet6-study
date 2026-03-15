@@ -14,6 +14,8 @@
 - 已新增 `index/starter-practice-packs.md`，基于本地 `input/` 数据源固定 5 个可直接在 Discord 主通道调用的 30 分钟微训练题包，作为真实听力样本核验前的开练兜底包
 - 已基于现有微训练题包向 `input/writing-lines.tsv` 与 `input/translation-lines.tsv` 回收三轮可复用句型，并顺手向 `input/expressions.tsv` 回收一批高频监督表达，先把写作 / 翻译弱项输出池从“只有最小样本”补到可持续轮换的厚度，后续再用真实打卡数据筛掉低价值句型
 - 已补 `input/README.md` 的输入池维护规则，固定去重 / 优先级 / 来源口径，避免在真实打卡数据出现前继续无边界机械扩容
+- 已新增 `input/priority-rotation.md`，先从现有 `writing-lines.tsv` / `translation-lines.tsv` / `expressions.tsv` 中筛出首轮高优先级轮换清单，减少后续 Discord 主通道、微训练题包与提醒文案从全量 TSV 临时取料的波动
+- 已将 `input/priority-rotation.md` 的取料顺序接入 `starter-practice-packs.md` 与 Discord 写作 / 翻译通道规则，后续默认先走高优先级轮换层，再按需回退到原始 TSV，避免出现“有轮换清单但实际仍随机取料”的脱节
 - 后续新增完整卷候选来源时，先登记到候选池，再决定是否写入正式索引
 - 已补上 `daily-logs/2026-03.md`、`reviews/README.md`、`reviews/2026-W11-weekly-review.md`，让真实训练记录有固定落点
 - 本轮根据现有进展补充了一个更具体的内部推进项：先整理“首批可直接训练的听力材料入口清单”，避免在完整卷来源尚未锁定时停滞
@@ -50,7 +52,7 @@
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1 入口（`2024-12 / KE`），再推进 P2/P3，并把首批结果写入 `index/verified-listening-samples.md`
 - 核验时严格按 `index/listening-verification-queue.md` 与 `transcripts/sample-intake-template.md` 执行，先形成最小样本记录，再决定是否上调 `catalog.md`
 - 持续维护索引层的一致性（`catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` / `listening-verification-queue.md` 的相互引用），不把入口状态误写成样本状态
-- 扩充并优化输入数据源，继续向写作 / 翻译弱项倾斜
+- 结合 `input/priority-rotation.md` 继续优化输入数据源，优先做筛选与替换，再决定是否继续向写作 / 翻译弱项扩充
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
 - 等首个真实听力样本核验成功后，把 `index/starter-practice-packs.md` 中对应 Pack 的听力块替换为真实材料页任务
 - 用周数据跑一次阶段性评估

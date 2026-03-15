@@ -23,6 +23,11 @@
 
 ## 2026-03-15
 
+- 15:54 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`input/priority-rotation.md`、`index/starter-practice-packs.md`、`skills/cet6-coach/references/discord-main-channel.md` 与 `skills/cet6-coach/references/discord-specialized-flows.md` 后，确认当前最合理且可安全完成的内部收口点，是把已经筛出的高优先级轮换层正式接入微训练题包与 Discord 写作 / 翻译通道规则，避免出现“有优先清单但实际仍从全量 TSV 随机取料”的脱节；本轮已完成对应接线，并同步回写 Todo 与任务板。该动作属于内部取料口径收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
+
+- 15:49 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`input/README.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv`、`input/expressions.tsv` 与 `index/starter-practice-packs.md` 后，确认当前最合理且可安全完成的内部动作，不再是继续第四轮机械扩容输入池，而是先把现有条目收成一层稳定可调用的高优先级轮换清单；本轮已新增 `input/priority-rotation.md`，从现有 TSV 中筛出写作 / 翻译 / 高频监督表达三组核心条目，并同步回写 Todo 与任务板。该动作属于内部输入池收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
+
+
 - 15:44 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/starter-practice-packs.md`、`input/README.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv` 与 `input/expressions.tsv` 后，确认当前更值得补齐的内部缺口，不是继续第四轮机械加句子，而是给已连续扩充三轮的 `input/` 输入池补上去重 / 优先级 / 来源口径，避免在真实打卡数据出现前只做加法、不做筛选；本轮已更新 `input/README.md`，固定“优先补弱项高复用素材、连续扩充 2-3 轮后先整理、真实打卡数据优先于微训练题包回收”的维护规则，并同步回写 Todo 与任务板。该动作属于内部输入池治理，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
 
 - 15:39 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/starter-practice-packs.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv` 与 `input/expressions.tsv` 后，确认当前仍可安全推进、且不依赖外部资料的动作，依然是继续把微训练题包里尚未沉淀的稳定句型回收到 `input/` 数据池，而不是重复补流程文档或伪造听力核验进展；本轮向 `writing-lines.tsv` 与 `translation-lines.tsv` 各补入 5 条更适合严格监督型复盘与日常输出的句型，并把 Todo / 任务板中的“已回收两轮”统一更新为“三轮”。该动作属于内部输入池扩充，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。

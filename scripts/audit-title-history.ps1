@@ -79,6 +79,14 @@ function Get-SuggestedAction {
     }
 
     if ($Summary.UnknownFailureCount -eq 0) {
+        if ($Summary.NeedsNamingReview) {
+            if ($Summary.TopPassOnlyRepeatedTitleCount -gt 0 -and $Summary.TopPassOnlyRepeatedTitle) {
+                return ("Failures still match the known legacy-bad-title buckets, and the strongest PASS-only repeated-title hotspot is {0} x '{1}'; confirm the samples still look legacy-only, then keep tightening naming specificity for that hotspot." -f $Summary.TopPassOnlyRepeatedTitleCount, $Summary.TopPassOnlyRepeatedTitle)
+            }
+
+            return 'Failures still match the known legacy-bad-title buckets, but PASS-only repeated-title hotspots are still strong enough to justify another look at naming specificity after confirming the samples remain legacy-only.'
+        }
+
         return 'Failures match the currently known legacy-bad-title buckets; review the sample titles to confirm no new false positives appeared.'
     }
 
@@ -254,7 +262,7 @@ $passOnlyRepeatedTitles = @(
 )
 $passOnlyRepeatedTitleCount = $passOnlyRepeatedTitles.Count
 $topPassOnlyRepeatedTitle = if ($passOnlyRepeatedTitles.Count -gt 0) { $passOnlyRepeatedTitles[0] } else { $null }
-$needsNamingReview = [bool]($failures.Count -eq 0 -and $topPassOnlyRepeatedTitle -and $topPassOnlyRepeatedTitle.Count -ge 3)
+$needsNamingReview = [bool]($topPassOnlyRepeatedTitle -and $topPassOnlyRepeatedTitle.Count -ge 3)
 
 $auditScope = Get-AuditScope -Count $Count -RevisionRange $RevisionRange
 
