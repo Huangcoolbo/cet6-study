@@ -240,6 +240,23 @@ $discordFlowIndexOnlyTouched = $indexDataOnlyTouched -and @(
         Where-Object { (Split-Path $_ -Leaf) -like 'discord-*' }
 ).Count -gt 0
 $discordFlowLeafTouched = Test-AnyPathMatch -Paths $changedPaths -Candidates @('discord-study-flow.md', 'discord-weekly-progress-shortcut.md', 'discord-writing-flow.md', 'discord-translation-flow.md', 'discord-listening-flow.md', 'discord-scoring-review-format.md', 'discord-shortcuts.md')
+$maintenanceBacklogTouched = Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/maintenance-log.md', 'data\index\maintenance-log.md', 'maintenance-log.md', 'data/index/task-board.md', 'data\index\task-board.md', 'task-board.md')
+if ($todoTouched -and $workflowTouched -and -not $dingtalkStateTouched -and $maintenanceBacklogTouched -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0 -and $titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
+    $nonIndexDataPaths = @(
+        $dataPaths |
+            Where-Object { $_ -notlike 'data/index/*' -and $_ -notlike 'data\index\*' }
+    )
+    $trainingInputOnlyTouched = $nonIndexDataPaths.Count -gt 0 -and @(
+        $nonIndexDataPaths |
+            Where-Object { $_ -notlike 'data/input/*' -and $_ -notlike 'data\input\*' }
+    ).Count -eq 0
+
+    if ($trainingInputOnlyTouched) {
+        Write-Output 'review: refine study backlog guidance title automation and training inputs'
+        exit 0
+    }
+}
+
 if ($todoTouched -and $workflowTouched -and $dingtalkStateTouched -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
     if ($titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
         $nonIndexDataPaths = @(
