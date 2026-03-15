@@ -141,6 +141,7 @@
 ### 若涉及日评分与复盘
 继续衔接：
 - `index/daily-check-template.md`
+- `index/discord-scoring-review-format.md`
 - `reviews/2026-W11-weekly-review.md`
 
 ---

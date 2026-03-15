@@ -77,6 +77,30 @@ function Get-SuggestedAction {
     return 'Failures include reasons outside the usual legacy buckets; inspect the samples and validator rules before treating this as expected.'
 }
 
+function Get-AuditScope {
+    param(
+        [int]$Count,
+        [string]$RevisionRange
+    )
+
+    if ($RevisionRange) {
+        return [pscustomobject]@{
+            Mode        = 'revision-range'
+            Label       = "revision range $RevisionRange"
+            RevisionRange = $RevisionRange
+            CountLabel  = ''
+        }
+    }
+
+    $countLabel = if ($Count -eq 1) { 'latest 1 commit' } else { "latest $Count commits" }
+    return [pscustomobject]@{
+        Mode          = 'count'
+        Label         = $countLabel
+        RevisionRange = ''
+        CountLabel    = $countLabel
+    }
+}
+
 Set-Location $repoRoot
 
 $gitArgs = @('log', '--format=%H%x09%s')
@@ -173,6 +197,8 @@ if ($unknownFailureCount -lt 0) {
     $unknownFailureCount = 0
 }
 
+$auditScope = Get-AuditScope -Count $Count -RevisionRange $RevisionRange
+
 $summary = [pscustomobject]@{
     AuditedCount             = $results.Count
     PassCount                = $results.Count - $failures.Count
@@ -181,7 +207,10 @@ $summary = [pscustomobject]@{
     UnknownFailureCount      = $unknownFailureCount
     LegacyOnlyFailures       = [bool]($failures.Count -gt 0 -and $unknownFailureCount -eq 0)
     FailuresOnly             = [bool]$FailuresOnly
-    RevisionRange            = if ($RevisionRange) { $RevisionRange } else { '' }
+    RevisionRange            = $auditScope.RevisionRange
+    AuditMode                = $auditScope.Mode
+    AuditScope               = $auditScope.Label
+    RequestedCount           = if ($RevisionRange) { $null } else { $Count }
     Outcome                  = if ($failures.Count -eq 0) { 'clean' } elseif ($unknownFailureCount -eq 0) { 'legacy-only' } else { 'needs-review' }
 }
 
@@ -204,6 +233,7 @@ if ($AsMarkdown) {
     $lines.Add('# Title Audit Summary') | Out-Null
     $lines.Add('') | Out-Null
     $lines.Add(('- Audited: {0}' -f $summary.AuditedCount)) | Out-Null
+    $lines.Add(('- Scope: `{0}`' -f $summary.AuditScope)) | Out-Null
     $lines.Add(('- Passed: {0}' -f $summary.PassCount)) | Out-Null
     $lines.Add(('- Failed: {0}' -f $summary.FailCount)) | Out-Null
     $lines.Add(('- Known legacy failures: {0}' -f $summary.KnownLegacyFailureCount)) | Out-Null
@@ -211,6 +241,9 @@ if ($AsMarkdown) {
     $lines.Add(('- Outcome: `{0}`' -f $summary.Outcome)) | Out-Null
     if ($summary.RevisionRange) {
         $lines.Add(('- Revision range: `{0}`' -f $summary.RevisionRange)) | Out-Null
+    }
+    elseif ($null -ne $summary.RequestedCount) {
+        $lines.Add(('- Requested count: `{0}`' -f $summary.RequestedCount)) | Out-Null
     }
     if ($summary.FailuresOnly) {
         $lines.Add('- Output mode: failures only') | Out-Null
@@ -274,7 +307,7 @@ if (-not $SummaryOnly) {
     Write-Host ''
 }
 
-Write-Host ("Audited {0} commit title(s): {1} pass, {2} fail. Outcome: {3}." -f $summary.AuditedCount, $summary.PassCount, $summary.FailCount, $summary.Outcome)
+Write-Host ("Audited {0} commit title(s) from {1}: {2} pass, {3} fail. Outcome: {4}." -f $summary.AuditedCount, $summary.AuditScope, $summary.PassCount, $summary.FailCount, $summary.Outcome)
 Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount)
 Write-Host ("Suggested action: {0}" -f $suggestedAction)
 
