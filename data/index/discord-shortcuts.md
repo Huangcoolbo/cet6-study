@@ -131,7 +131,7 @@
 ### 读取顺序
 
 1. 先读 `index/weak-point-tracker.md`
-2. 若记录不足，再回看 `daily-logs/2026-03.md` 的“今日主要错误”
+2. 若记录不足，再回看“当前月份对应的 `daily-logs/YYYY-MM.md`”中的“今日主要错误”（例如 `daily-logs/2026-03.md`）
 3. 若仍无真实数据，则回退到 `baseline.md` 的基础画像
 
 ### 无足够真实数据时的默认返回
@@ -200,7 +200,7 @@
 
 ### 读取顺序
 
-1. 优先读取 `daily-logs/2026-03.md`
+1. 优先读取“当前月份对应的 `daily-logs/YYYY-MM.md`”（例如 `daily-logs/2026-03.md`）
 2. 若已存在评分，再对照 `discord-scoring-review-format.md`
 3. 若当天还没有真实训练记录，就明确返回“今日暂无可复盘数据”
 
@@ -259,7 +259,7 @@
 - `index/discord-study-flow.md`：主入口与提交流程
 - `index/discord-scoring-review-format.md`：评分与复盘口径
 - `index/weak-point-tracker.md`：弱项信息源
-- `daily-logs/2026-03.md`：当天训练与复盘数据源
+- `daily-logs/YYYY-MM.md`：当前月份的训练与复盘数据源（例如 `daily-logs/2026-03.md`）
 - `index/baseline.md`：无真实数据时的默认回退画像
 
 ---

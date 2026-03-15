@@ -10,7 +10,11 @@ $cases = @(
     },
     @{
         Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'scripts/audit-title-history.ps1')
-        Expected = 'review: refine DingTalk follow-up tracking and title automation'
+        Expected = 'review: refine DingTalk index follow-up guidance and title automation'
+    },
+    @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/task-board.md', 'scripts/audit-title-history.ps1')
+        Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
     @{
         Paths = @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md')
@@ -30,6 +34,10 @@ $cases = @(
     },
     @{
         Paths = @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/audit-title-history.ps1')
+        Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
+    },
+    @{
+        Paths = @('title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'maintenance-log.md', 'task-board.md', 'audit-title-history.ps1')
         Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
     },
     @{
@@ -53,16 +61,24 @@ $cases = @(
         Expected = 'review: track DingTalk reminder follow-up and maintenance notes'
     },
     @{
-        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'scripts/audit-title-history.ps1')
-        Expected = 'review: refine DingTalk follow-up tracking and title automation'
+        Paths = @('Todo.md', 'dingtalk-state.json', 'maintenance-log.md')
+        Expected = 'review: track DingTalk reminder follow-up and maintenance notes'
     },
     @{
         Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
-        Expected = 'review: refine DingTalk follow-up tracking and title automation'
+        Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
     @{
         Paths = @('.gitignore', 'Todo.md', 'WORKFLOW.md')
         Expected = 'chore: refine local audit artifact ignore rules and workflow notes'
+    },
+    @{
+        Paths = @('data/index/dingtalk-state.json', 'data/index/discord-study-flow.md', 'scripts/audit-title-history.ps1')
+        Expected = 'review: refine DingTalk index tracking and title audit automation'
+    },
+    @{
+        Paths = @('data/index/dingtalk-state.json', 'data/index/listening-verification-queue.md', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/audit-title-history.ps1')
+        Expected = 'review: refine DingTalk index tracking and title audit automation'
     }
 )
 

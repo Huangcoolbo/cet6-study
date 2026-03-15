@@ -21,8 +21,8 @@
 
 收到 `查看本周进度` 后，按以下顺序取数：
 
-1. `cet6-data/reviews/2026-W11-weekly-review.md` 等对应周复盘文件
-2. `cet6-data/daily-logs/2026-03.md` 中本周实际训练记录
+1. `cet6-data/reviews/YYYY-Www-weekly-review.md` 等当前周对应的周复盘文件（例如 `cet6-data/reviews/2026-W11-weekly-review.md`）
+2. `cet6-data/daily-logs/YYYY-MM.md` 中本周实际训练记录（例如 `cet6-data/daily-logs/2026-03.md`）
 3. `cet6-data/index/stage-progress-evaluation.md`
 4. `cet6-data/index/weak-point-tracker.md`
 5. `cet6-data/index/baseline.md`
@@ -78,7 +78,7 @@
 - `index/discord-shortcuts.md`：日级快捷入口规则
 - `index/discord-study-flow.md`：主入口与日级训练流
 - `index/discord-scoring-review-format.md`：日评分 / 日复盘口径
-- `reviews/2026-W11-weekly-review.md`：周级主数据源
+- `reviews/YYYY-Www-weekly-review.md`：当前周的主数据源（例如 `reviews/2026-W11-weekly-review.md`）
 - `index/stage-progress-evaluation.md`：阶段评估判断口径
 
 建议：

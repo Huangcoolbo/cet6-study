@@ -41,6 +41,8 @@
 - 2026-03-15 14:34 cron 巡检：复查 `Todo.md`、`skills/cet6-coach/SKILL.md`、`skills/cet6-coach/references/discord-main-channel.md`、`cet6-data/index/discord-listening-flow.md`、`cet6-data/index/discord-writing-flow.md` 与 `cet6-data/index/discord-translation-flow.md` 后，确认当前尚未正式收口、但可安全完成的内部缺口，是把 `今日听力` / `今日写作` / `今日翻译` 三类 Discord 专项入口正式接到 `cet6-coach` 参考层，而不是继续让它们只停留在索引文档里；本轮新增 `skills/cet6-coach/references/discord-specialized-flows.md`，并在 `SKILL.md` 的 Daily practice mode 中补上专项入口读取说明，同时将 Todo 对应接线项记为完成。该动作属于内部流程收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 14:39 cron 巡检：复查 `Todo.md`、`skills/cet6-coach/SKILL.md`、`skills/cet6-coach/references/discord-main-channel.md` 与 `cet6-data/index/discord-scoring-review-format.md` 后，确认当前还未正式接入 skill 参考层、但可安全完成的内部缺口，是把 Discord 的每日评分 / 复盘口径从数据层索引上收口到 `cet6-coach` 通道规则层；本轮新增 `skills/cet6-coach/references/discord-scoring-review.md`，并在 `SKILL.md` 与 `references/discord-main-channel.md` 中补上评分入口读取说明，同时将 Todo 对应接线项记为完成。该动作属于内部流程收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 14:49 cron 巡检：复查 `Todo.md`、`cet6-data/index/starter-practice-packs.md`、`cet6-data/index/discord-study-flow.md`、`skills/cet6-coach/references/discord-main-channel.md` 与 `skills/cet6-coach/references/discord-specialized-flows.md` 后，确认当前最合理且可安全完成的内部缺口，是把“真实听力样本未核验时如何用本地微训练题包兜底开练”正式接入 Discord / `cet6-coach` 通道参考层，并顺手清理主通道文档里已过时的“待扩展 / 待设计”描述；本轮已将 `starter-practice-packs.md` 的回退规则补入上述参考文件，并将 Todo 对应项记为完成。该动作属于内部流程收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-15 15:04 cron 巡检：复查 `Todo.md`、`cet6-data/index/discord-study-flow.md`、`cet6-data/index/discord-scoring-review-format.md`、`cet6-data/daily-logs/2026-03.md`、`cet6-data/index/weak-point-tracker.md` 与 `skills/cet6-coach/references/discord-main-channel.md` 后，确认当前仍可安全推进、且比继续扩写流程更关键的内部缺口，是把“真实 Discord 打卡后如何统一落到 daily-logs / weak-point-tracker / 周复盘”正式固定下来，避免后续出现真实学习数据却回写散乱；本轮新增 `index/discord-record-writeback.md`，并将其接入 `discord-study-flow.md`、`references/discord-main-channel.md` 与 `references/discord-scoring-review.md`，同时将 Todo 对应项记为完成。该动作属于内部数据落库规则收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-15 15:09 cron 巡检：复查 `Todo.md`、`skills/cet6-coach/SKILL.md` 与 `skills/cet6-coach/references/discord-shortcuts.md` 后，确认 `查看计划` / `查看弱项` / `今日复盘` 虽已接入参考层，但 `SKILL.md` 的 Daily practice mode 仍未把这组 Discord 快捷入口单独写明，容易让后续执行只读主通道规则却漏掉快捷入口口径；本轮已在 `SKILL.md` 补上快捷入口读取说明，并把“固定月份 / 固定周文件路径需收紧为按当前月份 / 当前周定位”补记为新的内部待办，避免月份切换后入口仍读取硬编码日志。该动作属于内部路由与后续任务补全，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1 入口（`2024-12 / KE`），再推进 P2/P3，并把首批结果写入 `index/verified-listening-samples.md`
@@ -51,6 +53,7 @@
 - 等首个真实听力样本核验成功后，把 `index/starter-practice-packs.md` 中对应 Pack 的听力块替换为真实材料页任务
 - 用周数据跑一次阶段性评估
 - 等首轮真实打卡数据出现后，收紧 Discord 快捷入口与评分回退口径，减少“待补真实数据”占比
+- 继续在新增文档中维持“当前月份 / 当前周定位 + 示例路径”写法，避免重新引入 `daily-logs/2026-03.md`、`reviews/2026-W11-weekly-review.md` 这类硬编码读取口径
 - 等首轮真实周数据出现后，收紧“查看本周进度”的字段与判断口径，并与周复盘 / 阶段评估口径继续打通
 - 在用户确认作息窗口后，做一次小范围提醒测试
 

@@ -130,7 +130,7 @@
 ### 用户发起训练时
 优先读取/回写：
 - `index/daily-check-template.md`
-- `daily-logs/2026-03.md`
+- 当前月份对应的 `daily-logs/YYYY-MM.md`（例如 `daily-logs/2026-03.md`）
 - `index/weak-point-tracker.md`
 
 ### 若涉及听力训练
@@ -140,11 +140,12 @@
 - `index/verified-listening-samples.md`
 - `index/starter-practice-packs.md`（若暂无 `verified` 样本，则作为当日开练兜底，不宣称为真题）
 
-### 若涉及日评分与复盘
+### 若涉及日评分、复盘与真实打卡回写
 继续衔接：
 - `index/daily-check-template.md`
 - `index/discord-scoring-review-format.md`
-- `reviews/2026-W11-weekly-review.md`
+- `index/discord-record-writeback.md`
+- 当前周对应的 `reviews/YYYY-Www-weekly-review.md`（例如 `reviews/2026-W11-weekly-review.md`）
 
 ---
 

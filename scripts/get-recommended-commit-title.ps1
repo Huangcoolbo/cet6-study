@@ -20,6 +20,39 @@ function Get-LeafList {
     )
 }
 
+function Test-AnyPathMatch {
+    param(
+        [string[]]$Paths,
+        [string[]]$Candidates
+    )
+
+    foreach ($path in @($Paths | Where-Object { $_ })) {
+        $leaf = Split-Path $path -Leaf
+        foreach ($candidate in @($Candidates | Where-Object { $_ })) {
+            if ($path -eq $candidate -or $leaf -eq $candidate) {
+                return $true
+            }
+        }
+    }
+
+    return $false
+}
+
+function Get-NonMatchingPaths {
+    param(
+        [string[]]$Paths,
+        [string[]]$Candidates
+    )
+
+    return @(
+        $Paths |
+            Where-Object {
+                $path = $_
+                -not (Test-AnyPathMatch -Paths @($path) -Candidates $Candidates)
+            }
+    )
+}
+
 function Get-MixedAreaSummary {
     param(
         [string[]]$ChangedPaths
@@ -112,6 +145,11 @@ if (($changedPaths -contains '.gitignore') -and ($changedPaths -contains 'Todo.m
     exit 0
 }
 
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/maintenance-log.md', 'data\index\maintenance-log.md', 'maintenance-log.md')) -and $docPaths.Count -eq 1 -and $scriptPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+    Write-Output 'review: track DingTalk reminder follow-up and maintenance notes'
+    exit 0
+}
+
 if ($docPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
     if ($docPaths.Count -le 2) {
         $leafNames = Get-LeafList -Paths $docPaths
@@ -159,13 +197,10 @@ $backlogTrackingSupportPatterns = @(
     'data\index\task-board.md'
 )
 
-$titleQualityWorkflowTouched = @($changedPaths | Where-Object { $_ -eq '.github/workflows/title-quality.yml' -or $_ -eq '.github\workflows\title-quality.yml' -or $_ -eq 'title-quality.yml' }).Count -gt 0
-if ($titleQualityWorkflowTouched -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $planPaths.Count -eq 0) {
+$titleQualityWorkflowTouched = Test-AnyPathMatch -Paths $changedPaths -Candidates @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'title-quality.yml')
+if ($titleQualityWorkflowTouched -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and $planPaths.Count -eq 0) {
     $nonTitleQualityPaths = @(
-        $changedPaths |
-            Where-Object {
-                $_ -notin @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPatterns -and $_ -notin $backlogTrackingSupportPatterns
-            }
+        Get-NonMatchingPaths -Paths $changedPaths -Candidates @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'COMMIT_MESSAGE_GUIDELINES.md', 'audit-title-history.ps1', 'get-recommended-commit-title.ps1', 'test-get-recommended-commit-title.ps1', 'test-validate-title.ps1', 'dingtalk-state.json', 'maintenance-log.md', 'task-board.md')
     )
 
     if ($nonTitleQualityPaths.Count -eq 0) {
@@ -179,21 +214,39 @@ if (($changedPaths -contains 'auto-push.ps1') -and ($changedPaths -contains 'res
     exit 0
 }
 
-if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and ($changedPaths -contains 'maintenance-log.md') -and $docPaths.Count -eq 1 -and $scriptPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/maintenance-log.md', 'data\index\maintenance-log.md', 'maintenance-log.md')) -and $docPaths.Count -eq 1 -and $scriptPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
     Write-Output 'review: track DingTalk reminder follow-up and maintenance notes'
     exit 0
 }
 
-$titleQualitySupportTouched = @($changedPaths | Where-Object { $_ -in $titleQualitySupportPatterns }).Count -gt 0
-$titleQualityOnlyScriptsTouched = $scriptPaths.Count -gt 0 -and @($scriptPaths | Where-Object { $_ -notin $titleQualitySupportPatterns }).Count -eq 0
-if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
+$titleQualitySupportTouched = Test-AnyPathMatch -Paths $changedPaths -Candidates $titleQualitySupportPatterns
+$titleQualityOnlyScriptsTouched = $scriptPaths.Count -gt 0 -and @(Get-NonMatchingPaths -Paths $scriptPaths -Candidates $titleQualitySupportPatterns).Count -eq 0
+$indexDataOnlyTouched = $dataPaths.Count -gt 0 -and @($dataPaths | Where-Object { $_ -notlike 'data/index/*' -and $_ -notlike 'data\index\*' }).Count -eq 0
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
     if ($titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
+        if ($indexDataOnlyTouched) {
+            Write-Output 'review: refine DingTalk index follow-up guidance and title automation'
+            exit 0
+        }
+
         Write-Output 'review: refine DingTalk follow-up tracking and title automation'
         exit 0
     }
 
     Write-Output 'fix: refine DingTalk state workflow automation and follow-up tracking'
     exit 0
+}
+
+if ($dataPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $docPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+    if ($indexDataOnlyTouched -and $titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
+        if (Test-AnyPathMatch -Paths $dataPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) {
+            Write-Output 'review: refine DingTalk index tracking and title audit automation'
+            exit 0
+        }
+
+        Write-Output 'review: refine index tracking and title audit automation'
+        exit 0
+    }
 }
 
 if ($dataPaths.Count -gt 0 -and $docPaths.Count -gt 0 -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
