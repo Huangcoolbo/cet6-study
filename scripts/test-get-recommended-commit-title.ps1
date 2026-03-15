@@ -29,6 +29,14 @@ $cases = @(
         Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
     },
     @{
+        Paths = @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/audit-title-history.ps1')
+        Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
+    },
+    @{
+        Paths = @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/task-board.md', 'scripts/audit-title-history.ps1')
+        Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
+    },
+    @{
         Paths = @('auto-push.ps1', 'resume-catchup.ps1', 'Todo.md', 'WORKFLOW.md')
         Expected = 'fix: refine sync entrypoint compatibility and workflow notes'
     },

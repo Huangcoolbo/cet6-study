@@ -150,13 +150,21 @@ $titleQualitySupportPatterns = @(
     'scripts/test-validate-title.ps1',
     'scripts\test-validate-title.ps1'
 )
+$backlogTrackingSupportPatterns = @(
+    'data/index/dingtalk-state.json',
+    'data\index\dingtalk-state.json',
+    'data/index/maintenance-log.md',
+    'data\index\maintenance-log.md',
+    'data/index/task-board.md',
+    'data\index\task-board.md'
+)
 
 $titleQualityWorkflowTouched = @($changedPaths | Where-Object { $_ -eq '.github/workflows/title-quality.yml' -or $_ -eq '.github\workflows\title-quality.yml' -or $_ -eq 'title-quality.yml' }).Count -gt 0
-if ($titleQualityWorkflowTouched -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+if ($titleQualityWorkflowTouched -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $planPaths.Count -eq 0) {
     $nonTitleQualityPaths = @(
         $changedPaths |
             Where-Object {
-                $_ -notin @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPatterns
+                $_ -notin @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPatterns -and $_ -notin $backlogTrackingSupportPatterns
             }
     )
 
