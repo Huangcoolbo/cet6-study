@@ -226,13 +226,13 @@ if ($unknownFailureCount -lt 0) {
 }
 
 $topRepeatedTitle = if ($repeatedTitles.Count -gt 0) { $repeatedTitles[0] } else { $null }
-$topRepeatedTitleSampleStatuses = if ($null -ne $topRepeatedTitle) {
-    @($topRepeatedTitle.Samples | ForEach-Object Status | Select-Object -Unique)
+[string[]]$topRepeatedTitleSampleStatuses = if ($null -ne $topRepeatedTitle) {
+    @($topRepeatedTitle.Samples | ForEach-Object { $_.Status } | Select-Object -Unique)
 }
 else {
     @()
 }
-$topRepeatedTitleStatusMix = if ($topRepeatedTitleSampleStatuses.Count -gt 0) {
+$topRepeatedTitleStatusMix = if (@($topRepeatedTitleSampleStatuses).Count -gt 0) {
     ($topRepeatedTitleSampleStatuses -join ',')
 }
 else {
