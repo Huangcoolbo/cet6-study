@@ -3,10 +3,12 @@
 ## In Progress
 - 继续筛选完整真题与答案来源
 - 基于 `source-year-mapping.md` 继续补完整卷与答案解析缺口
-- 开始沉淀听力原文样本
+- 按 `listening-verification-queue.md` 的顺位推进首个听力样本核验（先做 `2024-12 / KE / P1`）
+- 维护 `catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` / `listening-verification-queue.md` 的状态一致性
 - 为每日训练生成首批可直接使用的题目
 - 等待首轮实际打卡数据，用于验证阶段性进度评估规则
 - 基于 `transcripts/sample-intake-template.md` 统一后续听力样本核验与入库格式
+- 为钉钉订阅补启动 / 停止 / 恢复控制能力与内容频率配置入口
 
 ## New Progress
 - 已建立 `sources/complete-paper-candidates.md`，把完整试卷/答案来源与听力来源拆开管理
@@ -35,12 +37,15 @@
 - 2026-03-15 13:49 cron 巡检：继续沿 Discord 主学习通道补齐快捷入口，新增 `index/discord-shortcuts.md`，把 `查看计划` / `查看弱项` / `今日复盘` 的标准返回模板、数据读取顺序、无真实数据时的默认回退口径固定下来；Todo 中“设计 Discord 弱项查询 / 今日复盘 / 查看计划 等快捷入口”已改为完成。该动作属于内部流程补全，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 
 ## Next
-- 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`
+- 先核验 `sources/listening-entry-shortlist.md` 中的 P1 入口（`2024-12 / KE`），再推进 P2/P3，并把首批结果写入 `index/verified-listening-samples.md`
+- 核验时严格按 `index/listening-verification-queue.md` 与 `transcripts/sample-intake-template.md` 执行，先形成最小样本记录，再决定是否上调 `catalog.md`
 - 持续维护索引层的一致性（`catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` / `listening-verification-queue.md` 的相互引用），不把入口状态误写成样本状态
+- 扩充并优化输入数据源，继续向写作 / 翻译弱项倾斜
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
 - 用周数据跑一次阶段性评估
 - 等首轮真实打卡数据出现后，收紧 Discord 快捷入口与评分回退口径，减少“待补真实数据”占比
-- 基于真实打卡数据，决定是否启用 cron 固定提醒
+- 为钉钉订阅补启动 / 停止 / 恢复控制能力
+- 为钉钉订阅补内容类型与频率配置入口
 - 在用户确认作息窗口后，做一次小范围提醒测试
 
 ## Blocked

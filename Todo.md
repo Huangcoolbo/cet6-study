@@ -19,7 +19,8 @@
 - [x] 修复 `sync-cet6-study.ps1` 在上游路径缺失时可能因 `Get-Item` 直接报错的问题，使缺失源路径按预期跳过。
 - [x] 评估 `auto-push.ps1` 与 `sync-cet6-study.ps1` 的职责重叠，决定收敛为以 `sync-cet6-study.ps1` 为主入口，并把 `auto-push.ps1` 降级为兼容包装脚本，同时补充说明以避免后续维护混乱。
 - [ ] 持续检查项目职责范围内是否还有未完成事项；如发现新的任务，补充到本文件。
-- [ ] 评估是否需要进一步收紧或细化自动生成的 `chore: adjust CET-6 repository files ...` / `sync: align CET-6 materials from D:\Bo` 标题模板，减少“虽然合规但重复度过高”的历史与 artifact 信息损耗。
+- [x] 评估是否需要进一步收紧或细化自动生成的 `chore: adjust CET-6 repository files ...` / `sync: align CET-6 materials from D:\Bo` 标题模板，减少“虽然合规但重复度过高”的历史与 artifact 信息损耗。（结论：需要；已把 `sync-cet6-study.ps1` 的自动生成标题继续细化为优先按改动区域/对象输出，`data + automation` 混合改动会优先生成 `sync: refresh CET-6 data and automation for ...`，更杂的混合改动则优先汇总成 `index data`、`training inputs`、`study plans`、`project docs`、`automation` 等区域标签，减少同一条泛化 `sync:` / `chore:` 模板长期重复占满历史与 `title-audit-summary`）
+- [~] 继续观察新的按区域自动生成标题是否已经足够减少重复标题分组；如果 `title-audit-summary` 里仍频繁出现高重复度合规标题，再决定是否继续细化到目录级或文件级对象命名。（本轮已根据最近 20 条历史抽查确认，重复最明显的一组仍是 `Todo.md + WORKFLOW.md + dingtalk-state.json` 反复落成同一条 `chore: adjust ...` 标题；已进一步收紧 `sync-cet6-study.ps1` 的混合改动命名：当主要涉及 `data/index/` 共享状态 + 少量配套文档时，优先生成 `data: refresh DingTalk reminder state and supporting docs` 或 `docs: clarify index data guidance and shared state files`，减少叶子文件枚举式重复标题；已把新标题补进 `scripts/test-validate-title.ps1`，当前本地 31 个样例通过。后续继续观察真实新提交是否因此让高重复分组明显下降）
 - [x] 制定更具体的 git commit message 规范，避免使用过于笼统的提交描述，并且不要包含时间戳。
 - [x] 修复自动同步脚本仍在使用硬编码旧提交信息模板的问题，改为根据实际变更生成更具体、易懂的 commit message。
 - [x] 评估是否需要把 `COMMIT_MESSAGE_GUIDELINES.md` 的约束进一步体现在自动化脚本或 PR 模板中，避免规范只停留在文档层。
