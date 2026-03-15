@@ -161,6 +161,36 @@
 
 详细规范见：`COMMIT_MESSAGE_GUIDELINES.md`
 
+### 手动提交时的推荐做法
+
+为了避免只有自动同步脚本能用更细的标题启发式，手动维护或巡检提交也建议复用仓库内置的推荐标题脚本：
+
+```powershell
+git add <你准备提交的文件>
+./scripts/get-recommended-commit-title.ps1
+git commit -m "<上一步输出的标题>"
+```
+
+如果想直接让脚本根据暂存区内容给出建议，可在 `git add` 之后运行：
+
+```powershell
+./scripts/get-recommended-commit-title.ps1
+```
+
+如果只是想先预览某批文件会得到什么标题，也可以显式传路径：
+
+```powershell
+./scripts/get-recommended-commit-title.ps1 -Paths Todo.md,WORKFLOW.md,scripts/audit-title-history.ps1
+```
+
+提交前如果不确定标题是否合规，再补一次：
+
+```powershell
+./scripts/validate-title.ps1 -Kind commit -Title "<拟使用的标题>"
+```
+
+这样做的目的不是让人机械照抄脚本，而是把已经在 `sync-cet6-study.ps1` 里验证过的细粒度标题启发式，也前移到日常手动提交流程里，减少再次回落到泛化 `chore:` / `sync:` 标题的概率。
+
 ## 9. 审查结果通常分四类
 
 这个仓库的审查通常会落到以下四类：

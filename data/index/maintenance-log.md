@@ -23,6 +23,10 @@
 
 ## 2026-03-15
 
+- 14:09 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-study-flow.md`、`index/discord-scoring-review-format.md`、`index/discord-shortcuts.md` 与 `skills/cet6-coach/references/discord-shortcuts.md` 后，确认 Discord 日级主通道与快捷入口骨架已基本收口，当前更合理但尚未写入主任务板的后续是“基于真实周数据补周级入口”；已在 `Todo.md` 与 `index/task-board.md` 补入“查看本周进度”类周级入口任务，并明确其依赖为首轮真实周数据，避免在缺真实记录时继续重复补日级模板。该动作属于内部后续任务补全，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验.
+- 14:14 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-shortcuts.md`、`reviews/2026-W11-weekly-review.md` 与 `index/stage-progress-evaluation.md` 后，确认本轮可安全完成的是“查看本周进度”周级快捷入口骨架设计；已新增 `index/discord-weekly-progress-shortcut.md`，把周复盘 / 日志 / 阶段评估的取数顺序、标准返回结构与“无真实数据不伪造统计”的口径固定下来，并同步回写 Todo 与任务板。该动作属于内部流程补全，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验.
+
+- 14:04 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/catalog.md`、`index/source-year-mapping.md`、`index/listening-verification-queue.md`、`index/verified-listening-samples.md`、`sources/listening-entry-shortlist.md` 与 `transcripts/sample-intake-template.md` 后，确认本轮仍无可安全上调的样本或年份状态；但 `task-board.md` 的 In Progress / Next 表述与 `Todo.md` 当前优先级存在轻微脱节，容易继续沿旧口径推进。已将任务板改写为：明确先做 `2024-12 / KE / P1` 实际核验、把索引一致性维护单列、并补回钉钉订阅控制能力与内容频率配置这两项尚未完成的自动化后续。该动作属于内部任务板对齐，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
 - 13:54 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-study-flow.md`、`index/discord-scoring-review-format.md`、`index/discord-shortcuts.md` 与 `skills/cet6-coach/references/discord-main-channel.md` 后，确认当前更适合收口的是“Discord 快捷入口与主通道文档仍有旧版未完成描述”这一内部一致性缺口；本轮新增 `skills/cet6-coach/references/discord-shortcuts.md`，并同步更新主通道/评分文档中的过时“下一步”描述，同时将 Todo 对应接线项改为已完成。该动作属于内部文档收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
 
 - 13:34 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-study-flow.md`、`index/discord-scoring-review-format.md` 与 `skills/cet6-coach/` 后，确认“Discord 主通道规则接入 skill 参考层”可作为当前可安全完成的内部推进项；本轮新增 `skills/cet6-coach/references/discord-main-channel.md`，并在 `SKILL.md` 的 Daily practice mode 中补上 Discord 主学习通道接线说明，同时将 Todo 对应项改为已完成。该动作属于内部流程收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
