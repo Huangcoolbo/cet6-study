@@ -21,6 +21,10 @@ $cases = @(
         Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
     },
     @{
+        Paths = @('.github\workflows\title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'COMMIT_MESSAGE_GUIDELINES.md', 'scripts\get-recommended-commit-title.ps1', 'scripts\test-get-recommended-commit-title.ps1')
+        Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
+    },
+    @{
         Paths = @('auto-push.ps1', 'resume-catchup.ps1', 'Todo.md', 'WORKFLOW.md')
         Expected = 'fix: refine sync entrypoint compatibility and workflow notes'
     },
@@ -31,6 +35,14 @@ $cases = @(
     @{
         Paths = @('data/index/STATE_FILES.md', 'WORKFLOW.md')
         Expected = 'docs: clarify index data guidance and shared state files'
+    },
+    @{
+        Paths = @('Todo.md', 'data/index/dingtalk-state.json', 'maintenance-log.md')
+        Expected = 'review: track DingTalk reminder follow-up and maintenance notes'
+    },
+    @{
+        Paths = @('.gitignore', 'Todo.md', 'WORKFLOW.md')
+        Expected = 'chore: refine local audit artifact ignore rules and workflow notes'
     }
 )
 

@@ -5,13 +5,13 @@
 - 基于 `source-year-mapping.md` 继续补完整卷与答案解析缺口
 - 按 `listening-verification-queue.md` 的顺位推进首个听力样本核验（先做 `2024-12 / KE / P1`）
 - 维护 `catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` / `listening-verification-queue.md` 的状态一致性
-- 为每日训练生成首批可直接使用的题目
 - 等待首轮实际打卡数据，用于验证阶段性进度评估规则
 - 基于 `transcripts/sample-intake-template.md` 统一后续听力样本核验与入库格式
 - 继续观察钉钉链路稳定性，并等待用户确认作息窗口后做小范围真实提醒测试
 
 ## New Progress
 - 已建立 `sources/complete-paper-candidates.md`，把完整试卷/答案来源与听力来源拆开管理
+- 已新增 `index/starter-practice-packs.md`，基于本地 `input/` 数据源固定 5 个可直接在 Discord 主通道调用的 30 分钟微训练题包，作为真实听力样本核验前的开练兜底包
 - 后续新增完整卷候选来源时，先登记到候选池，再决定是否写入正式索引
 - 已补上 `daily-logs/2026-03.md`、`reviews/README.md`、`reviews/2026-W11-weekly-review.md`，让真实训练记录有固定落点
 - 本轮根据现有进展补充了一个更具体的内部推进项：先整理“首批可直接训练的听力材料入口清单”，避免在完整卷来源尚未锁定时停滞
@@ -47,6 +47,7 @@
 - 持续维护索引层的一致性（`catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` / `listening-verification-queue.md` 的相互引用），不把入口状态误写成样本状态
 - 扩充并优化输入数据源，继续向写作 / 翻译弱项倾斜
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
+- 等首个真实听力样本核验成功后，把 `index/starter-practice-packs.md` 中对应 Pack 的听力块替换为真实材料页任务
 - 用周数据跑一次阶段性评估
 - 等首轮真实打卡数据出现后，收紧 Discord 快捷入口与评分回退口径，减少“待补真实数据”占比
 - 等首轮真实周数据出现后，收紧“查看本周进度”的字段与判断口径，并与周复盘 / 阶段评估口径继续打通

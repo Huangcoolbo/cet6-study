@@ -107,6 +107,11 @@ if ($planPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $docPaths.Count -eq 
     exit 0
 }
 
+if (($changedPaths -contains '.gitignore') -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+    Write-Output 'chore: refine local audit artifact ignore rules and workflow notes'
+    exit 0
+}
+
 if ($docPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
     if ($docPaths.Count -le 2) {
         $leafNames = Get-LeafList -Paths $docPaths
@@ -134,19 +139,24 @@ if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.
     exit 0
 }
 
-$titleQualitySupportPaths = @(
+$titleQualitySupportPatterns = @(
     'COMMIT_MESSAGE_GUIDELINES.md',
     'scripts/audit-title-history.ps1',
+    'scripts\audit-title-history.ps1',
     'scripts/get-recommended-commit-title.ps1',
+    'scripts\get-recommended-commit-title.ps1',
     'scripts/test-get-recommended-commit-title.ps1',
-    'scripts/test-validate-title.ps1'
+    'scripts\test-get-recommended-commit-title.ps1',
+    'scripts/test-validate-title.ps1',
+    'scripts\test-validate-title.ps1'
 )
 
-if (($changedPaths -contains '.github/workflows/title-quality.yml') -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+$titleQualityWorkflowTouched = @($changedPaths | Where-Object { $_ -eq '.github/workflows/title-quality.yml' -or $_ -eq '.github\workflows\title-quality.yml' }).Count -gt 0
+if ($titleQualityWorkflowTouched -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
     $nonTitleQualityPaths = @(
         $changedPaths |
             Where-Object {
-                $_ -notin @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPaths
+                $_ -notin @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPatterns
             }
     )
 
@@ -158,6 +168,11 @@ if (($changedPaths -contains '.github/workflows/title-quality.yml') -and ($chang
 
 if (($changedPaths -contains 'auto-push.ps1') -and ($changedPaths -contains 'resume-catchup.ps1') -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
     Write-Output 'fix: refine sync entrypoint compatibility and workflow notes'
+    exit 0
+}
+
+if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and ($changedPaths -contains 'maintenance-log.md') -and $docPaths.Count -eq 1 -and $scriptPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
+    Write-Output 'review: track DingTalk reminder follow-up and maintenance notes'
     exit 0
 }
 
