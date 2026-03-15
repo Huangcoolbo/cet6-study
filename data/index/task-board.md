@@ -48,6 +48,9 @@
 - 2026-03-15 15:04 cron 巡检：复查 `Todo.md`、`cet6-data/index/discord-study-flow.md`、`cet6-data/index/discord-scoring-review-format.md`、`cet6-data/daily-logs/2026-03.md`、`cet6-data/index/weak-point-tracker.md` 与 `skills/cet6-coach/references/discord-main-channel.md` 后，确认当前仍可安全推进、且比继续扩写流程更关键的内部缺口，是把“真实 Discord 打卡后如何统一落到 daily-logs / weak-point-tracker / 周复盘”正式固定下来，避免后续出现真实学习数据却回写散乱；本轮新增 `index/discord-record-writeback.md`，并将其接入 `discord-study-flow.md`、`references/discord-main-channel.md` 与 `references/discord-scoring-review.md`，同时将 Todo 对应项记为完成。该动作属于内部数据落库规则收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 15:09 cron 巡检：复查 `Todo.md`、`skills/cet6-coach/SKILL.md` 与 `skills/cet6-coach/references/discord-shortcuts.md` 后，确认 `查看计划` / `查看弱项` / `今日复盘` 虽已接入参考层，但 `SKILL.md` 的 Daily practice mode 仍未把这组 Discord 快捷入口单独写明，容易让后续执行只读主通道规则却漏掉快捷入口口径；本轮已在 `SKILL.md` 补上快捷入口读取说明，并把“固定月份 / 固定周文件路径需收紧为按当前月份 / 当前周定位”补记为新的内部待办，避免月份切换后入口仍读取硬编码日志。该动作属于内部路由与后续任务补全，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 
+- 2026-03-15 16:04 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-scoring-review-format.md`、`index/discord-study-flow.md` 与 `skills/cet6-coach/references/discord-scoring-review.md` 后，确认当前最合理且可安全完成的内部补漏点，是把 `discord-scoring-review-format.md` 中残留的固定月份 / 固定周路径收紧为“当前月份 / 当前周定位 + 示例路径”，避免评分与复盘说明再次把读取口径写回硬编码路径；本轮已完成该收口，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-15 16:09 cron 巡检：继续复查 `Todo.md`、`index/task-board.md`、`index/discord-listening-flow.md`、`index/discord-writing-flow.md`、`index/discord-translation-flow.md` 与 `transcripts/sample-intake-template.md` 后，确认三个 Discord 专项流程与听力样本模板里仍残留固定月份日志写法，和当前已统一的“按当前月份定位 + 示例路径”口径存在轻微脱节；本轮已完成该收口，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1 入口（`2024-12 / KE`），再推进 P2/P3，并把首批结果写入 `index/verified-listening-samples.md`
 - 核验时严格按 `index/listening-verification-queue.md` 与 `transcripts/sample-intake-template.md` 执行，先形成最小样本记录，再决定是否上调 `catalog.md`
@@ -73,3 +76,4 @@
 - 建立阶段性进度评估规则
 - 完成提醒方案、提醒文案风格与 cron 启用评估文档
 - 完成来源-年份映射初版并更新 catalog
+

@@ -36,7 +36,7 @@
 - 易错点：
 - 可回收表达：
 - 与 `input/listening-paraphrases.tsv` 是否联动：是 / 否
-- 与 `daily-logs/2026-03.md` 是否已有训练记录：是 / 否
+- 与当前月份对应的 `daily-logs/YYYY-MM.md`（例如 `daily-logs/2026-03.md`）是否已有训练记录：是 / 否
 
 ## 处理结论
 

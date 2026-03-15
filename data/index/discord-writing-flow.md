@@ -189,7 +189,7 @@
 
 ### 记录层
 若发生真实训练或弱项暴露，再回写：
-- `D:/Bo/cet6-data/daily-logs/2026-03.md`
+- 当前月份对应的 `D:/Bo/cet6-data/daily-logs/YYYY-MM.md`（例如 `D:/Bo/cet6-data/daily-logs/2026-03.md`）
 - `D:/Bo/cet6-data/index/weak-point-tracker.md`
 
 ---

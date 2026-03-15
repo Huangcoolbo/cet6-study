@@ -93,6 +93,10 @@ $cases = @(
         Expected = 'review: track DingTalk reminder follow-up and maintenance notes'
     },
     @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
+        Expected = 'review: refine DingTalk follow-up title recommendations'
+    },
+    @{
         Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
         Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
