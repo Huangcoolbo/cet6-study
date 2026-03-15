@@ -17,6 +17,9 @@ jobs:
       - name: Run title validator regression samples
         shell: pwsh
         run: ./scripts/test-validate-title.ps1
+      - name: Run recommended commit title regression samples
+        shell: pwsh
+        run: ./scripts/test-get-recommended-commit-title.ps1
 
   pr-title:
     if: github.event_name == 'pull_request'
