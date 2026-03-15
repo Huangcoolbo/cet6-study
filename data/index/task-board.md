@@ -16,6 +16,7 @@
 - 已补 `input/README.md` 的输入池维护规则，固定去重 / 优先级 / 来源口径，避免在真实打卡数据出现前继续无边界机械扩容
 - 已新增 `input/priority-rotation.md`，先从现有 `writing-lines.tsv` / `translation-lines.tsv` / `expressions.tsv` 中筛出首轮高优先级轮换清单，减少后续 Discord 主通道、微训练题包与提醒文案从全量 TSV 临时取料的波动
 - 已将 `input/priority-rotation.md` 的取料顺序接入 `starter-practice-packs.md` 与 Discord 写作 / 翻译通道规则，后续默认先走高优先级轮换层，再按需回退到原始 TSV，避免出现“有轮换清单但实际仍随机取料”的脱节
+- 已新增 `index/current-period-file-resolution.md`，统一 `daily-logs/YYYY-MM.md` 与 `reviews/YYYY-Www-weekly-review.md` 的动态定位速查口径，减少后续新文档重复散写月份 / 周文件说明
 - 后续新增完整卷候选来源时，先登记到候选池，再决定是否写入正式索引
 - 已补上 `daily-logs/2026-03.md`、`reviews/README.md`、`reviews/2026-W11-weekly-review.md`，让真实训练记录有固定落点
 - 本轮根据现有进展补充了一个更具体的内部推进项：先整理“首批可直接训练的听力材料入口清单”，避免在完整卷来源尚未锁定时停滞

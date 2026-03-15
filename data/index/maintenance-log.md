@@ -23,6 +23,8 @@
 
 ## 2026-03-15
 
+- 16:14 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/discord-study-flow.md`、`index/discord-shortcuts.md`、`index/discord-record-writeback.md`、`index/discord-weekly-progress-shortcut.md` 与 `skills/cet6-coach/references/discord-*.md` 后，确认当前仍存在一个适合内部收口、但不值得继续在多份文档里散写同类表述的缺口：`daily-logs/YYYY-MM.md` 与 `reviews/YYYY-Www-weekly-review.md` 的“当前月份 / 当前周文件定位”规则尚缺统一速查落点；本轮已新增 `index/current-period-file-resolution.md`，把动态定位、示例路径、跨月跨周切换边界与最小执行规则集中收口，并同步回写 Todo 与任务板。该动作属于内部口径统一，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
+
 - 15:54 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`input/priority-rotation.md`、`index/starter-practice-packs.md`、`skills/cet6-coach/references/discord-main-channel.md` 与 `skills/cet6-coach/references/discord-specialized-flows.md` 后，确认当前最合理且可安全完成的内部收口点，是把已经筛出的高优先级轮换层正式接入微训练题包与 Discord 写作 / 翻译通道规则，避免出现“有优先清单但实际仍从全量 TSV 随机取料”的脱节；本轮已完成对应接线，并同步回写 Todo 与任务板。该动作属于内部取料口径收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
 
 - 15:49 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`input/README.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv`、`input/expressions.tsv` 与 `index/starter-practice-packs.md` 后，确认当前最合理且可安全完成的内部动作，不再是继续第四轮机械扩容输入池，而是先把现有条目收成一层稳定可调用的高优先级轮换清单；本轮已新增 `input/priority-rotation.md`，从现有 TSV 中筛出写作 / 翻译 / 高频监督表达三组核心条目，并同步回写 Todo 与任务板。该动作属于内部输入池收口，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。

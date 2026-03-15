@@ -101,6 +101,14 @@ $cases = @(
         Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
     @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'data/index/starter-practice-packs.md', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
+        Expected = 'review: refine DingTalk index guidance and title automation'
+    },
+    @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'dingtalk-state.json', 'maintenance-log.md', 'task-board.md', 'dingtalk-subscription-controls.md', 'get-recommended-commit-title.ps1', 'test-validate-title.ps1')
+        Expected = 'review: refine DingTalk index guidance and title automation'
+    },
+    @{
         Paths = @('.gitignore', 'Todo.md', 'WORKFLOW.md')
         Expected = 'chore: refine local audit artifact ignore rules and workflow notes'
     },
