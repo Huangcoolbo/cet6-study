@@ -150,6 +150,11 @@ if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test
     exit 0
 }
 
+if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
+    Write-Output 'review: track DingTalk state follow-up and workflow notes'
+    exit 0
+}
+
 if ($docPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
     if ($docPaths.Count -le 2) {
         $leafNames = Get-LeafList -Paths $docPaths
@@ -169,11 +174,6 @@ if ($scriptPaths.Count -gt 0 -and $dataPaths.Count -eq 0 -and $planPaths.Count -
     }
 
     Write-Output 'fix: adjust CET-6 repository automation'
-    exit 0
-}
-
-if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and $planPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
-    Write-Output 'review: track DingTalk state follow-up and workflow notes'
     exit 0
 }
 
@@ -224,8 +224,22 @@ $titleQualityOnlyScriptsTouched = $scriptPaths.Count -gt 0 -and @(Get-NonMatchin
 $indexDataOnlyTouched = $dataPaths.Count -gt 0 -and @($dataPaths | Where-Object { $_ -notlike 'data/index/*' -and $_ -notlike 'data\index\*' }).Count -eq 0
 if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
     if ($titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
+        $nonIndexDataPaths = @(
+            $dataPaths |
+                Where-Object { $_ -notlike 'data/index/*' -and $_ -notlike 'data\index\*' }
+        )
+        $trainingInputOnlyTouched = $nonIndexDataPaths.Count -gt 0 -and @(
+            $nonIndexDataPaths |
+                Where-Object { $_ -notlike 'data/input/*' -and $_ -notlike 'data\input\*' }
+        ).Count -eq 0
+
         if ($indexDataOnlyTouched) {
             Write-Output 'review: refine DingTalk index follow-up guidance and title automation'
+            exit 0
+        }
+
+        if ($trainingInputOnlyTouched) {
+            Write-Output 'review: refine DingTalk follow-up guidance title automation and training inputs'
             exit 0
         }
 

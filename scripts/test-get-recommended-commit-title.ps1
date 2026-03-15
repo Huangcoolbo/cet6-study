@@ -21,6 +21,10 @@ $cases = @(
         Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
     @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/maintenance-log.md', 'data/input/translation-lines.tsv', 'data/input/writing-lines.tsv', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
+        Expected = 'review: refine DingTalk follow-up guidance title automation and training inputs'
+    },
+    @{
         Paths = @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md')
         Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
     },
