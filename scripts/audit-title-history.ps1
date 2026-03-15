@@ -199,18 +199,28 @@ if ($unknownFailureCount -lt 0) {
 
 $auditScope = Get-AuditScope -Count $Count -RevisionRange $RevisionRange
 
+$newestEntry = if ($results.Count -gt 0) { $results[0] } else { $null }
+$oldestEntry = if ($results.Count -gt 0) { $results[$results.Count - 1] } else { $null }
+
 $summary = [pscustomobject]@{
     AuditedCount             = $results.Count
     PassCount                = $results.Count - $failures.Count
     FailCount                = $failures.Count
+    FailureBucketCount       = $failureSummary.Count
     KnownLegacyFailureCount  = $knownLegacyFailureCount
     UnknownFailureCount      = $unknownFailureCount
     LegacyOnlyFailures       = [bool]($failures.Count -gt 0 -and $unknownFailureCount -eq 0)
+    HasFailures              = [bool]($failures.Count -gt 0)
+    NeedsReview              = [bool]($failures.Count -gt 0 -and $unknownFailureCount -gt 0)
     FailuresOnly             = [bool]$FailuresOnly
     RevisionRange            = $auditScope.RevisionRange
     AuditMode                = $auditScope.Mode
     AuditScope               = $auditScope.Label
     RequestedCount           = if ($RevisionRange) { $null } else { $Count }
+    NewestCommit             = if ($null -ne $newestEntry) { $newestEntry.Sha } else { '' }
+    NewestTitle              = if ($null -ne $newestEntry) { $newestEntry.Title } else { '' }
+    OldestCommit             = if ($null -ne $oldestEntry) { $oldestEntry.Sha } else { '' }
+    OldestTitle              = if ($null -ne $oldestEntry) { $oldestEntry.Title } else { '' }
     Outcome                  = if ($failures.Count -eq 0) { 'clean' } elseif ($unknownFailureCount -eq 0) { 'legacy-only' } else { 'needs-review' }
 }
 
@@ -238,12 +248,22 @@ if ($AsMarkdown) {
     $lines.Add(('- Failed: {0}' -f $summary.FailCount)) | Out-Null
     $lines.Add(('- Known legacy failures: {0}' -f $summary.KnownLegacyFailureCount)) | Out-Null
     $lines.Add(('- Unknown / investigate failures: {0}' -f $summary.UnknownFailureCount)) | Out-Null
+    $lines.Add(('- Failure buckets: {0}' -f $summary.FailureBucketCount)) | Out-Null
     $lines.Add(('- Outcome: `{0}`' -f $summary.Outcome)) | Out-Null
+    $lines.Add(('- Needs review: `{0}`' -f $summary.NeedsReview.ToString().ToLowerInvariant())) | Out-Null
     if ($summary.RevisionRange) {
         $lines.Add(('- Revision range: `{0}`' -f $summary.RevisionRange)) | Out-Null
     }
     elseif ($null -ne $summary.RequestedCount) {
         $lines.Add(('- Requested count: `{0}`' -f $summary.RequestedCount)) | Out-Null
+    }
+    if ($summary.NewestCommit) {
+        $newestShortSha = if ($summary.NewestCommit.Length -ge 7) { $summary.NewestCommit.Substring(0, 7) } else { $summary.NewestCommit }
+        $lines.Add(('- Newest commit in scope: `{0}` {1}' -f $newestShortSha, $summary.NewestTitle)) | Out-Null
+    }
+    if ($summary.OldestCommit) {
+        $oldestShortSha = if ($summary.OldestCommit.Length -ge 7) { $summary.OldestCommit.Substring(0, 7) } else { $summary.OldestCommit }
+        $lines.Add(('- Oldest commit in scope: `{0}` {1}' -f $oldestShortSha, $summary.OldestTitle)) | Out-Null
     }
     if ($summary.FailuresOnly) {
         $lines.Add('- Output mode: failures only') | Out-Null
@@ -308,7 +328,14 @@ if (-not $SummaryOnly) {
 }
 
 Write-Host ("Audited {0} commit title(s) from {1}: {2} pass, {3} fail. Outcome: {4}." -f $summary.AuditedCount, $summary.AuditScope, $summary.PassCount, $summary.FailCount, $summary.Outcome)
-Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount)
+Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}; failure buckets: {2}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount, $summary.FailureBucketCount)
+Write-Host ("Needs review: {0}." -f $summary.NeedsReview.ToString().ToLowerInvariant())
+if ($summary.NewestCommit) {
+    Write-Host ("Newest commit in scope: {0} {1}" -f $summary.NewestCommit.Substring(0, 7), $summary.NewestTitle)
+}
+if ($summary.OldestCommit) {
+    Write-Host ("Oldest commit in scope: {0} {1}" -f $summary.OldestCommit.Substring(0, 7), $summary.OldestTitle)
+}
 Write-Host ("Suggested action: {0}" -f $suggestedAction)
 
 if ($failureSummary.Count -gt 0) {

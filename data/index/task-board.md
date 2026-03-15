@@ -7,7 +7,7 @@
 - 为每日训练生成首批可直接使用的题目
 - 等待首轮实际打卡数据，用于验证阶段性进度评估规则
 - 基于 `transcripts/sample-intake-template.md` 统一后续听力样本核验与入库格式
-- 基于 `index/discord-study-flow.md` 与 `index/discord-scoring-review-format.md` 继续补 Discord 专项互动流程
+- 基于 `index/discord-study-flow.md` 与 `index/discord-scoring-review-format.md` 继续补 Discord 快捷入口（查看计划 / 查看弱项 / 今日复盘）返回模板
 
 ## New Progress
 - 已建立 `sources/complete-paper-candidates.md`，把完整试卷/答案来源与听力来源拆开管理
@@ -32,13 +32,14 @@
 - 2026-03-14 22:32 cron 巡检：在不依赖外部核验的前提下，补建 `index/discord-study-flow.md`，先把 Discord 主学习通道的“开始今日六级”入口、30 分钟任务下发骨架、每日提交格式与严格监督型反馈顺序固定下来；本轮推进的是主通道最小闭环设计，不涉及听力样本状态升级，资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 13:34 cron 巡检：继续沿 Discord 主通道建设推进，新增 `skills/cet6-coach/references/discord-main-channel.md`，并在 `cet6-coach/SKILL.md` 的 Daily practice mode 中补上 Discord 主学习通道接线说明；本轮真实完成的是“将 Discord 主通道规则接入 cet6-coach 或相关参考文件”，不涉及资料核验状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 - 2026-03-15 13:39 cron 巡检：继续按 Discord 主学习通道建设推进，新增 `index/discord-listening-flow.md`，把 `今日听力` / 听力版 `开始今日六级` 的 30 分钟任务骨架、分轮提交格式、错因追问逻辑与严格监督型完成判定固定下来；Todo 中“设计 Discord 听力专项互动流程”已改为完成。该动作属于内部流程补全，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
+- 2026-03-15 13:44 cron 巡检：继续沿 Discord 主学习通道补齐专项流程，新增 `index/discord-translation-flow.md` 与 `index/discord-writing-flow.md`，分别把 `今日翻译` / `今日写作` 的 30 分钟任务骨架、分轮提交格式、错因追问逻辑与严格监督型完成判定固定下来；Todo 中“设计 Discord 翻译专项互动流程”“设计 Discord 写作专项互动流程”已改为完成。该动作属于内部流程补全，不涉及任何资料样本状态升级，听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验
 
 ## Next
 - 先核验 `sources/listening-entry-shortlist.md` 中的 P1/P2 入口，并把首批结果写入 `index/verified-listening-samples.md`
 - 持续维护索引层的一致性（`catalog.md` / `source-year-mapping.md` / `verified-listening-samples.md` / `listening-verification-queue.md` 的相互引用），不把入口状态误写成样本状态
 - 用真实打卡数据填充首轮每日记录，并完成一份周复盘
 - 用周数据跑一次阶段性评估
-- 基于 `index/discord-study-flow.md` 继续补听力 / 翻译 / 写作专项互动流程，以及每日评分与复盘格式
+- 基于 `index/discord-study-flow.md` 继续补快捷入口（查看计划 / 查看弱项 / 今日复盘）返回模板，并视情况把翻译 / 写作流程进一步接到 skill 参考层
 - 基于真实打卡数据，决定是否启用 cron 固定提醒
 - 在用户确认作息窗口后，做一次小范围提醒测试
 
