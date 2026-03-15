@@ -10,7 +10,7 @@ $cases = @(
     },
     @{
         Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'scripts/audit-title-history.ps1')
-        Expected = 'fix: refine DingTalk state workflow automation and follow-up tracking'
+        Expected = 'review: refine DingTalk follow-up tracking and title automation'
     },
     @{
         Paths = @('.github/workflows/title-quality.yml', 'Todo.md', 'WORKFLOW.md')
@@ -22,6 +22,10 @@ $cases = @(
     },
     @{
         Paths = @('.github\workflows\title-quality.yml', 'Todo.md', 'WORKFLOW.md', 'COMMIT_MESSAGE_GUIDELINES.md', 'scripts\get-recommended-commit-title.ps1', 'scripts\test-get-recommended-commit-title.ps1')
+        Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
+    },
+    @{
+        Paths = @('title-quality.yml', 'Todo.md', 'WORKFLOW.md')
         Expected = 'fix: refine title quality workflow guidance tests and backlog tracking'
     },
     @{
@@ -39,6 +43,14 @@ $cases = @(
     @{
         Paths = @('Todo.md', 'data/index/dingtalk-state.json', 'maintenance-log.md')
         Expected = 'review: track DingTalk reminder follow-up and maintenance notes'
+    },
+    @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'scripts/audit-title-history.ps1')
+        Expected = 'review: refine DingTalk follow-up tracking and title automation'
+    },
+    @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
+        Expected = 'review: refine DingTalk follow-up tracking and title automation'
     },
     @{
         Paths = @('.gitignore', 'Todo.md', 'WORKFLOW.md')

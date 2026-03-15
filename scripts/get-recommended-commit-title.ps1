@@ -48,7 +48,7 @@ function Get-MixedAreaSummary {
     if (@($ChangedPaths | Where-Object { $_ -match '(^|[\\/])(README\.md|WORKFLOW\.md|SYNC_POLICY\.md|PR_MERGE_POLICY\.md|CONTRIBUTING\.md|Todo\.md|COMMIT_MESSAGE_GUIDELINES\.md)$' -or $_ -like 'data/index/STATE_FILES.md' }).Count -gt 0) {
         $labels.Add('project docs') | Out-Null
     }
-    if (@($ChangedPaths | Where-Object { $_ -like '*.ps1' -or $_ -like '.github/*' -or $_ -like '.github\*' -or $_ -like 'scripts/*' -or $_ -like 'scripts\*' }).Count -gt 0) {
+    if (@($ChangedPaths | Where-Object { $_ -like '*.ps1' -or $_ -like '.github/*' -or $_ -like '.github\*' -or $_ -like 'scripts/*' -or $_ -like 'scripts\*' -or $_ -eq 'title-quality.yml' }).Count -gt 0) {
         $labels.Add('automation') | Out-Null
     }
 
@@ -78,7 +78,7 @@ if (-not $changedPaths -or $changedPaths.Count -eq 0) {
 $dataPaths = @($changedPaths | Where-Object { $_ -like 'data/*' -or $_ -like 'data\*' })
 $planPaths = @($changedPaths | Where-Object { $_ -like 'plans/*' -or $_ -like 'plans\*' })
 $docPaths = @($changedPaths | Where-Object { $_ -match '(^|[\\/])(README\.md|WORKFLOW\.md|SYNC_POLICY\.md|PR_MERGE_POLICY\.md|CONTRIBUTING\.md|Todo\.md|COMMIT_MESSAGE_GUIDELINES\.md)$' -or $_ -like 'data/index/STATE_FILES.md' })
-$scriptPaths = @($changedPaths | Where-Object { $_ -like '*.ps1' -or $_ -like '.github/*' -or $_ -like '.github\*' -or $_ -like 'scripts/*' -or $_ -like 'scripts\*' })
+$scriptPaths = @($changedPaths | Where-Object { $_ -like '*.ps1' -or $_ -like '.github/*' -or $_ -like '.github\*' -or $_ -like 'scripts/*' -or $_ -like 'scripts\*' -or $_ -eq 'title-quality.yml' })
 
 if ($dataPaths.Count -gt 0 -and $planPaths.Count -eq 0 -and $docPaths.Count -eq 0 -and $scriptPaths.Count -eq 0) {
     if ($dataPaths -contains 'data/index/dingtalk-state.json') {
@@ -151,12 +151,12 @@ $titleQualitySupportPatterns = @(
     'scripts\test-validate-title.ps1'
 )
 
-$titleQualityWorkflowTouched = @($changedPaths | Where-Object { $_ -eq '.github/workflows/title-quality.yml' -or $_ -eq '.github\workflows\title-quality.yml' }).Count -gt 0
+$titleQualityWorkflowTouched = @($changedPaths | Where-Object { $_ -eq '.github/workflows/title-quality.yml' -or $_ -eq '.github\workflows\title-quality.yml' -or $_ -eq 'title-quality.yml' }).Count -gt 0
 if ($titleQualityWorkflowTouched -and ($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and $dataPaths.Count -eq 0 -and $planPaths.Count -eq 0) {
     $nonTitleQualityPaths = @(
         $changedPaths |
             Where-Object {
-                $_ -notin @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPatterns
+                $_ -notin @('.github/workflows/title-quality.yml', '.github\workflows\title-quality.yml', 'title-quality.yml', 'Todo.md', 'WORKFLOW.md') -and $_ -notin $titleQualitySupportPatterns
             }
     )
 
@@ -176,7 +176,14 @@ if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'data/inde
     exit 0
 }
 
+$titleQualitySupportTouched = @($changedPaths | Where-Object { $_ -in $titleQualitySupportPatterns }).Count -gt 0
+$titleQualityOnlyScriptsTouched = $scriptPaths.Count -gt 0 -and @($scriptPaths | Where-Object { $_ -notin $titleQualitySupportPatterns }).Count -eq 0
 if (($changedPaths -contains 'Todo.md') -and ($changedPaths -contains 'WORKFLOW.md') -and ($changedPaths -contains 'data/index/dingtalk-state.json') -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
+    if ($titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
+        Write-Output 'review: refine DingTalk follow-up tracking and title automation'
+        exit 0
+    }
+
     Write-Output 'fix: refine DingTalk state workflow automation and follow-up tracking'
     exit 0
 }
