@@ -68,6 +68,10 @@ function Get-SuggestedAction {
 
     if ($Summary.FailCount -eq 0) {
         if ($Summary.NeedsNamingReview) {
+            if ($Summary.TopPassOnlyRepeatedTitleCount -gt 0 -and $Summary.TopPassOnlyRepeatedTitle) {
+                return ("Validation is clean, but the strongest PASS-only repeated-title hotspot is still {0} x '{1}'; consider tightening naming specificity before history and workflow summaries get too repetitive." -f $Summary.TopPassOnlyRepeatedTitleCount, $Summary.TopPassOnlyRepeatedTitle)
+            }
+
             return 'Validation is clean, but repeated-title hotspots are still strong enough to justify another look at naming specificity before history and workflow summaries get too repetitive.'
         }
 
@@ -242,13 +246,15 @@ $topRepeatedTitleStatusMix = if (@($topRepeatedTitleSampleStatuses).Count -gt 0)
 else {
     ''
 }
-$passOnlyRepeatedTitleCount = @(
+$passOnlyRepeatedTitles = @(
     $repeatedTitles |
         Where-Object {
             @($_.Samples | Where-Object Status -ne 'PASS').Count -eq 0
         }
-).Count
-$needsNamingReview = [bool]($failures.Count -eq 0 -and $topRepeatedTitle -and $topRepeatedTitle.Count -ge 3)
+)
+$passOnlyRepeatedTitleCount = $passOnlyRepeatedTitles.Count
+$topPassOnlyRepeatedTitle = if ($passOnlyRepeatedTitles.Count -gt 0) { $passOnlyRepeatedTitles[0] } else { $null }
+$needsNamingReview = [bool]($failures.Count -eq 0 -and $topPassOnlyRepeatedTitle -and $topPassOnlyRepeatedTitle.Count -ge 3)
 
 $auditScope = Get-AuditScope -Count $Count -RevisionRange $RevisionRange
 
@@ -261,11 +267,13 @@ $summary = [pscustomobject]@{
     FailCount                = $failures.Count
     FailureBucketCount       = $failureSummary.Count
     RepeatedTitleCount        = $repeatedTitles.Count
-    PassOnlyRepeatedTitleCount = $passOnlyRepeatedTitleCount
-    TopRepeatedTitleCount     = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Count } else { 0 }
-    TopRepeatedTitle          = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Title } else { '' }
-    TopRepeatedTitleStatusMix = $topRepeatedTitleStatusMix
-    NeedsNamingReview         = $needsNamingReview
+    PassOnlyRepeatedTitleCount   = $passOnlyRepeatedTitleCount
+    TopPassOnlyRepeatedTitleCount = if ($null -ne $topPassOnlyRepeatedTitle) { $topPassOnlyRepeatedTitle.Count } else { 0 }
+    TopPassOnlyRepeatedTitle      = if ($null -ne $topPassOnlyRepeatedTitle) { $topPassOnlyRepeatedTitle.Title } else { '' }
+    TopRepeatedTitleCount         = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Count } else { 0 }
+    TopRepeatedTitle              = if ($null -ne $topRepeatedTitle) { $topRepeatedTitle.Title } else { '' }
+    TopRepeatedTitleStatusMix     = $topRepeatedTitleStatusMix
+    NeedsNamingReview             = $needsNamingReview
     KnownLegacyFailureCount   = $knownLegacyFailureCount
     UnknownFailureCount      = $unknownFailureCount
     LegacyOnlyFailures       = [bool]($failures.Count -gt 0 -and $unknownFailureCount -eq 0)
@@ -313,6 +321,9 @@ if ($AsMarkdown) {
     $lines.Add(('- PASS-only repeated titles: {0}' -f $summary.PassOnlyRepeatedTitleCount)) | Out-Null
     if ($summary.TopRepeatedTitleCount -gt 0) {
         $lines.Add(('- Top repeated title: {0} x `{1}` [{2}]' -f $summary.TopRepeatedTitleCount, $summary.TopRepeatedTitle, $summary.TopRepeatedTitleStatusMix)) | Out-Null
+    }
+    if ($summary.TopPassOnlyRepeatedTitleCount -gt 0) {
+        $lines.Add(('- Top PASS-only repeated title: {0} x `{1}`' -f $summary.TopPassOnlyRepeatedTitleCount, $summary.TopPassOnlyRepeatedTitle)) | Out-Null
     }
     $lines.Add(('- Outcome: `{0}`' -f $summary.Outcome)) | Out-Null
     $lines.Add(('- Needs review: `{0}`' -f $summary.NeedsReview.ToString().ToLowerInvariant())) | Out-Null
@@ -416,6 +427,9 @@ Write-Host ("Audited {0} commit title(s) from {1}: {2} pass, {3} fail. Outcome: 
 Write-Host ("Known legacy failures: {0}; unknown / investigate failures: {1}; failure buckets: {2}; repeated titles: {3}; PASS-only repeated titles: {4}." -f $summary.KnownLegacyFailureCount, $summary.UnknownFailureCount, $summary.FailureBucketCount, $summary.RepeatedTitleCount, $summary.PassOnlyRepeatedTitleCount)
 if ($summary.TopRepeatedTitleCount -gt 0) {
     Write-Host ("Top repeated title: {0} x {1} [{2}]" -f $summary.TopRepeatedTitleCount, $summary.TopRepeatedTitle, $summary.TopRepeatedTitleStatusMix)
+}
+if ($summary.TopPassOnlyRepeatedTitleCount -gt 0) {
+    Write-Host ("Top PASS-only repeated title: {0} x {1}" -f $summary.TopPassOnlyRepeatedTitleCount, $summary.TopPassOnlyRepeatedTitle)
 }
 Write-Host ("Needs review: {0}." -f $summary.NeedsReview.ToString().ToLowerInvariant())
 Write-Host ("Needs naming review: {0}." -f $summary.NeedsNamingReview.ToString().ToLowerInvariant())

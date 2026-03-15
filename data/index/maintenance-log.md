@@ -23,6 +23,8 @@
 
 ## 2026-03-15
 
+- 15:44 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/starter-practice-packs.md`、`input/README.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv` 与 `input/expressions.tsv` 后，确认当前更值得补齐的内部缺口，不是继续第四轮机械加句子，而是给已连续扩充三轮的 `input/` 输入池补上去重 / 优先级 / 来源口径，避免在真实打卡数据出现前只做加法、不做筛选；本轮已更新 `input/README.md`，固定“优先补弱项高复用素材、连续扩充 2-3 轮后先整理、真实打卡数据优先于微训练题包回收”的维护规则，并同步回写 Todo 与任务板。该动作属于内部输入池治理，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
+
 - 15:39 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/starter-practice-packs.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv` 与 `input/expressions.tsv` 后，确认当前仍可安全推进、且不依赖外部资料的动作，依然是继续把微训练题包里尚未沉淀的稳定句型回收到 `input/` 数据池，而不是重复补流程文档或伪造听力核验进展；本轮向 `writing-lines.tsv` 与 `translation-lines.tsv` 各补入 5 条更适合严格监督型复盘与日常输出的句型，并把 Todo / 任务板中的“已回收两轮”统一更新为“三轮”。该动作属于内部输入池扩充，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
 
 - 15:34 cron 巡检：复查 `Todo.md`、`index/task-board.md`、`index/starter-practice-packs.md`、`input/writing-lines.tsv`、`input/translation-lines.tsv` 与 `input/expressions.tsv` 后，确认当前最合理且可安全完成的内部推进项，仍是沿“扩充并优化输入数据源，向写作 / 翻译弱项倾斜”这条主线继续沉淀微训练题包里的高复用表达，而不是重复新增流程文档或伪造资料核验进展；本轮已向 `writing-lines.tsv`、`translation-lines.tsv` 补入一组更适合严格监督型复盘的句型，并向 `expressions.tsv` 回收一批高频监督表达，随后将对应进展同步回写到 `Todo.md` 与 `index/task-board.md`。该动作属于内部输入池扩充，不涉及任何资料样本状态升级；听力资料主线的真实推进点仍为 `2024-12 / KE / P1` 的实际入口核验。
