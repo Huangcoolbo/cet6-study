@@ -21,6 +21,14 @@ $cases = @(
         Expected = 'review: refine DingTalk index follow-up guidance and title automation'
     },
     @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/discord-study-flow.md', 'data/index/discord-weekly-progress-shortcut.md', 'data/index/maintenance-log.md', 'data/index/task-board.md', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
+        Expected = 'review: refine DingTalk study flow guidance and title automation'
+    },
+    @{
+        Paths = @('Todo.md', 'WORKFLOW.md', 'dingtalk-state.json', 'discord-writing-flow.md', 'maintenance-log.md', 'task-board.md', 'get-recommended-commit-title.ps1', 'test-get-recommended-commit-title.ps1')
+        Expected = 'review: refine DingTalk study flow guidance and title automation'
+    },
+    @{
         Paths = @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data/index/maintenance-log.md', 'data/input/translation-lines.tsv', 'data/input/writing-lines.tsv', 'scripts/get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1')
         Expected = 'review: refine DingTalk follow-up guidance title automation and training inputs'
     },

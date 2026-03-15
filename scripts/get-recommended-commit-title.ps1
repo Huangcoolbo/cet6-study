@@ -186,7 +186,11 @@ $titleQualitySupportPatterns = @(
     'scripts/test-get-recommended-commit-title.ps1',
     'scripts\test-get-recommended-commit-title.ps1',
     'scripts/test-validate-title.ps1',
-    'scripts\test-validate-title.ps1'
+    'scripts\test-validate-title.ps1',
+    'audit-title-history.ps1',
+    'get-recommended-commit-title.ps1',
+    'test-get-recommended-commit-title.ps1',
+    'test-validate-title.ps1'
 )
 $backlogTrackingSupportPatterns = @(
     'data/index/dingtalk-state.json',
@@ -222,6 +226,17 @@ if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test
 $titleQualitySupportTouched = Test-AnyPathMatch -Paths $changedPaths -Candidates $titleQualitySupportPatterns
 $titleQualityOnlyScriptsTouched = $scriptPaths.Count -gt 0 -and @(Get-NonMatchingPaths -Paths $scriptPaths -Candidates $titleQualitySupportPatterns).Count -eq 0
 $indexDataOnlyTouched = $dataPaths.Count -gt 0 -and @($dataPaths | Where-Object { $_ -notlike 'data/index/*' -and $_ -notlike 'data\index\*' }).Count -eq 0
+$discordFlowIndexOnlyTouched = $indexDataOnlyTouched -and @(
+    $dataPaths |
+        Where-Object {
+            $leaf = Split-Path $_ -Leaf
+            $leaf -ne 'dingtalk-state.json' -and $leaf -ne 'maintenance-log.md' -and $leaf -ne 'task-board.md' -and $leaf -notlike 'discord-*'
+        }
+).Count -eq 0 -and @(
+    $dataPaths |
+        Where-Object { (Split-Path $_ -Leaf) -like 'discord-*' }
+).Count -gt 0
+$discordFlowLeafTouched = Test-AnyPathMatch -Paths $changedPaths -Candidates @('discord-study-flow.md', 'discord-weekly-progress-shortcut.md', 'discord-writing-flow.md', 'discord-translation-flow.md', 'discord-listening-flow.md', 'discord-scoring-review-format.md', 'discord-shortcuts.md')
 if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('WORKFLOW.md')) -and (Test-AnyPathMatch -Paths $changedPaths -Candidates @('data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json')) -and $scriptPaths.Count -gt 0 -and $planPaths.Count -eq 0) {
     if ($titleQualitySupportTouched -and $titleQualityOnlyScriptsTouched) {
         $nonIndexDataPaths = @(
@@ -232,6 +247,11 @@ if ((Test-AnyPathMatch -Paths $changedPaths -Candidates @('Todo.md')) -and (Test
             $nonIndexDataPaths |
                 Where-Object { $_ -notlike 'data/input/*' -and $_ -notlike 'data\input\*' }
         ).Count -eq 0
+
+        if ($discordFlowIndexOnlyTouched -or ($discordFlowLeafTouched -and @(Get-NonMatchingPaths -Paths $changedPaths -Candidates @('Todo.md', 'WORKFLOW.md', 'data/index/dingtalk-state.json', 'data\index\dingtalk-state.json', 'dingtalk-state.json', 'maintenance-log.md', 'task-board.md', 'discord-study-flow.md', 'discord-weekly-progress-shortcut.md', 'discord-writing-flow.md', 'discord-translation-flow.md', 'discord-listening-flow.md', 'discord-scoring-review-format.md', 'discord-shortcuts.md', 'scripts/audit-title-history.ps1', 'scripts\audit-title-history.ps1', 'scripts/get-recommended-commit-title.ps1', 'scripts\get-recommended-commit-title.ps1', 'scripts/test-get-recommended-commit-title.ps1', 'scripts\test-get-recommended-commit-title.ps1', 'scripts/test-validate-title.ps1', 'scripts\test-validate-title.ps1', 'audit-title-history.ps1', 'get-recommended-commit-title.ps1', 'test-get-recommended-commit-title.ps1', 'test-validate-title.ps1')).Count -eq 0)) {
+            Write-Output 'review: refine DingTalk study flow guidance and title automation'
+            exit 0
+        }
 
         if ($indexDataOnlyTouched) {
             Write-Output 'review: refine DingTalk index follow-up guidance and title automation'
